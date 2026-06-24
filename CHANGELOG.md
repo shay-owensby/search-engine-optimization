@@ -3,6 +3,11 @@
 All notable changes to the `search-engine-optimization` plugin are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] — 2026-06-23
+
+### Fixed
+- Plugin manifest failed validation on install (`agents: Invalid input`) under Claude Code 2.x. The `agents` field declared a directory string (`"./agents/"`); the validator requires an array of agent file paths. Listed the six agent files explicitly so the plugin installs from the marketplace again.
+
 ## [1.0.1] — 2026-06-23
 
 ### Added

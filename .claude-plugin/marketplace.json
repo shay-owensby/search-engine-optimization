@@ -1,5 +1,6 @@
 {
   "name": "shay-owensby",
+  "description": "SEO workflow plugins by Shay Owensby — brand-agnostic skills + agents, configured per client at runtime.",
   "owner": {
     "name": "Shay Owensby",
     "email": "shay@unchainedaisolutions.com"
@@ -9,7 +10,7 @@
       "name": "search-engine-optimization",
       "source": "./plugins/search-engine-optimization",
       "description": "End-to-end SEO workflow (skills + agents). Brand context is supplied per-project via references/.",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "author": { "name": "Shay Owensby" },
       "keywords": ["seo", "content", "semrush"]
     }

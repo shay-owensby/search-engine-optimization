@@ -1,7 +1,7 @@
 {
   "name": "search-engine-optimization",
   "displayName": "Search Engine Optimization",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "End-to-end SEO workflow: keyword research, SERP intent, competitor gap, content briefs, on-page, internal linking, schema, technical audit, backlinks, rank tracking, reporting, and AI search — as skills + agents. Brand context is loaded per-project at runtime.",
   "author": {
     "name": "Shay Owensby",
@@ -9,6 +9,13 @@
   },
   "keywords": ["seo", "content", "keyword-research", "technical-seo", "reporting", "semrush"],
   "skills": "./skills/",
-  "agents": "./agents/",
+  "agents": [
+    "./agents/seo-orchestrator.md",
+    "./agents/seo-strategist.md",
+    "./agents/seo-content-architect.md",
+    "./agents/seo-technical-engineer.md",
+    "./agents/seo-authority-agent.md",
+    "./agents/seo-analyst.md"
+  ],
   "mcpServers": "./.mcp.json"
 }
