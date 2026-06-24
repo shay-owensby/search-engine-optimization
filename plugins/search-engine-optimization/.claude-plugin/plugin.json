@@ -1,13 +1,13 @@
 {
   "name": "search-engine-optimization",
   "displayName": "Search Engine Optimization",
-  "version": "1.0.3",
-  "description": "End-to-end SEO workflow: keyword research, SERP intent, competitor gap, content briefs, on-page, internal linking, schema, technical audit, backlinks, rank tracking, reporting, and AI search — as skills + agents. Brand context is loaded per-project at runtime.",
+  "version": "1.1.0",
+  "description": "End-to-end SEO workflow: keyword research, SERP intent, competitor gap, content briefs, on-page, featured-image generation, internal linking, schema, technical audit, backlinks, rank tracking, reporting, and AI search — as skills + agents. Brand context is loaded per-project at runtime.",
   "author": {
     "name": "Shay Owensby",
     "email": "shay@unchainedaisolutions.com"
   },
-  "keywords": ["seo", "content", "keyword-research", "technical-seo", "reporting", "semrush"],
+  "keywords": ["seo", "content", "keyword-research", "technical-seo", "reporting", "semrush", "higgsfield"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
 }

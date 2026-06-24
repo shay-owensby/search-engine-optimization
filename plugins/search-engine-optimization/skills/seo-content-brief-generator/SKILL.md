@@ -12,7 +12,7 @@ This skill defines the **process only** — load all brand-specific inputs from 
 ## When to use
 The user gives a target keyword (or topic) and wants a content brief, article outline, page-copy spec, SERP/competitor heading analysis, a list of entities or subtopics to cover, People Also Ask questions to answer, or a meta title/description — anything that briefs a writer on what to publish to rank for that term.
 
-> This skill is the bridge between research and writing. If the user still needs to pick the keyword, run `seo-keyword-research` first; if they want the finished, AI-citable copy, hand the brief to `seo-ai` next.
+> This skill is the bridge between research and writing. If the user still needs to pick the keyword, run `seo-keyword-research` first; if they want the finished, AI-citable copy, hand the brief to `seo-ai` next. For a blog/article, also run `seo-featured-image` to produce its 16:9 on-brand featured image.
 
 ## Inputs to gather first
 1. **Target keyword** — the one primary keyword the brief targets. Required. If the user gives a topic instead, pick the strongest head term (use `seo-keyword-research` if volume/difficulty is unknown).
@@ -67,7 +67,7 @@ For each, give the anchor intent (what the link is about) and why it's relevant.
 5. **Meta title & description draft** — write 1–2 options each in brand voice. Title ≤ ~60 chars, includes the primary keyword naturally; description ≤ ~155 chars, includes the keyword and a clear value prop/CTA. Never keyword-stuff.
 
 ## Step 8 — Deliver
-Fill in `${CLAUDE_PLUGIN_ROOT}/templates/seo-content-brief.md` and save to `exports/reports/` as `content-brief-<keyword-slug>-YYYY-MM-DD.md`. Write all prose (summary, notes, meta drafts) in the brand voice from `references/`.
+Fill in `${CLAUDE_PLUGIN_ROOT}/templates/seo-content-brief.md` and save to `exports/reports/` as `content-brief-<keyword-slug>-YYYY-MM-DD.md`. Write all prose (summary, notes, meta drafts) in the brand voice from `references/`. For a blog/article, note in the brief that a featured image is still needed and hand off to `seo-featured-image` to generate the 16:9 on-brand image.
 
 ## Rules
 - Always load `references/` before producing anything; keep all prose in brand voice.

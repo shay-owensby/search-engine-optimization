@@ -3,6 +3,17 @@
 All notable changes to the `search-engine-optimization` plugin are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] — 2026-06-23
+
+### Added
+- Bundled the official Higgsfield MCP server (`https://mcp.higgsfield.ai/mcp`, streamable HTTP) with per-user OAuth, for AI image generation alongside Semrush.
+- New skill `seo-featured-image` — generates a 16:9, on-brand, topic-relevant featured/hero image for a blog post via Higgsfield, then saves the image and a reproducible prompt spec to `exports/images/`. Falls back to outputting a ready-to-run prompt when Higgsfield isn't connected (never fabricates an image).
+- New template `seo-featured-image.md` recording the topic, prompt, model/ratio, brand-visual rules applied, saved path, and suggested alt text.
+- `seo-init` now scaffolds a `references/brand-visuals.md` (visual identity for image generation) and an `exports/images/` output folder; `client-template/` ships both.
+
+### Changed
+- `seo-content-architect` agent and `seo-content-brief-generator` skill now hand off to `seo-featured-image` so every blog/article ships with its featured image.
+
 ## [1.0.3] — 2026-06-23
 
 ### Fixed

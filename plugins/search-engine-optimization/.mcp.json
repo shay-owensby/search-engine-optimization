@@ -1,9 +1,13 @@
 {
-  "_comment": "Official Semrush MCP server (streamable HTTP). Claude Code authenticates each user via OAuth on first use — they log into their own Semrush account; nothing is stored in this file. For headless/CI use without OAuth, add an API-key header instead: \"headers\": { \"Authorization\": \"Apikey YOUR_API_KEY\" } (key from https://www.semrush.com/accounts/profile/api). See README.md > 'Connect Semrush'.",
+  "_comment": "Bundled MCP servers. Both are remote streamable-HTTP servers authenticated per-user via OAuth on first use — nothing is stored in this file, and each user logs into their own account. (1) Semrush for live SEO/keyword/competitive data; for headless/CI without OAuth, add \"headers\": { \"Authorization\": \"Apikey YOUR_API_KEY\" } (key from https://www.semrush.com/accounts/profile/api). (2) Higgsfield for AI image/video generation (e.g. blog featured images); authenticate against your own Higgsfield account. See README.md > 'Connect data sources'.",
   "mcpServers": {
     "semrush": {
       "type": "http",
       "url": "https://mcp.semrush.com/v1/mcp"
+    },
+    "higgsfield": {
+      "type": "http",
+      "url": "https://mcp.higgsfield.ai/mcp"
     }
   }
 }

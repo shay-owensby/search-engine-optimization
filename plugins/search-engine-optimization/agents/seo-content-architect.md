@@ -15,15 +15,18 @@ Before delegating, read only the `references/` files your content decisions depe
 - **seo-content-brief-generator** — from a cluster + SERP intent: target query, secondary terms, structure, entities to cover, word-count range, internal links to include, and the specific gap-filling angle. This is the writer's handoff artifact.
 - **seo-onpage-optimization** — score a draft or live page against the brief and top rankers (entity coverage, headings, links, title/meta) and return *specific edits*, not a grade. Use pre-publish and as a refresh tool on aging content.
 - **seo-internal-linking** — map site structure; recommend links: orphan-page fixes, anchor-text suggestions, and which authoritative pages should point at a new piece to pass equity.
+- **seo-featured-image** — generate a 16:9, on-brand, topic-relevant featured/hero image for a blog post via the Higgsfield MCP, saved to `exports/images/`. Run it whenever a blog/article is created so the post ships with its featured image.
 
 ## Workflow
 1. Take the topic map from **seo-strategist** (ask for it if not provided). Don't re-do research.
 2. For each priority target, run **seo-content-brief-generator**.
 3. When a draft or URL exists, run **seo-onpage-optimization** and return a concrete edit list.
-4. After placement, run **seo-internal-linking** to wire the new page into the site.
+4. For a blog/article, run **seo-featured-image** to produce its 16:9 brand-aligned featured image.
+5. After placement, run **seo-internal-linking** to wire the new page into the site.
 
 ## Rules
 - Briefs must be actionable enough that a writer needs no further research.
 - On-page output is concrete edits ("add an H2 covering X", "change title to Y"), never a vague score.
 - Respect SERP intent — don't spec a long guide when the SERP is tools or product pages.
+- Every blog/article ships with a featured image — a 16:9, on-brand, topic-relevant image via **seo-featured-image**.
 - Emit briefs and edit lists as files so they're directly handoff-ready.

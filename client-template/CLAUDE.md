@@ -4,7 +4,7 @@ This folder is one client's SEO workspace. The SEO workflow itself (skills + age
 
 ## What lives here
 - `references/` — **this client's** brand context. The single source of truth every skill/agent reads at runtime. Fill these in before running anything.
-- `exports/` — where deliverables land (`reports/` and `pages/`).
+- `exports/` — where deliverables land (`reports/`, `pages/`, and `images/`).
 - `.claude/settings.json` — registers the marketplace and enables the plugin.
 
 ## Getting started

@@ -12,7 +12,7 @@ This repository is the **`search-engine-optimization` Claude Code plugin and its
   - `skills/` — SEO workflow skills (process only, brand-agnostic).
   - `agents/` — SEO agents (roles only, brand-agnostic).
   - `templates/` — Output templates, shipped with the plugin.
-  - `.mcp.json` — Bundled, user-configurable Semrush MCP.
+  - `.mcp.json` — Bundled, per-user-OAuth MCP servers: Semrush (SEO data) and Higgsfield (image generation).
 - `client-template/` — Copy per client. Holds `references/`, `exports/`, and `.claude/settings.json`. **Not** part of the plugin.
 - `README.md` — Install + setup + publishing instructions.
 - `CHANGELOG.md` — Per-release notes.
@@ -33,7 +33,7 @@ This repository is the **`search-engine-optimization` Claude Code plugin and its
 **Agent roles stay distinct.**
 - Each agent has a clear, non-overlapping responsibility. When adding/editing an agent, confirm its role doesn't duplicate an existing one.
 
-**Deliverables go to `exports/`** (`reports/` for analyses, `pages/` for finished page copy).
+**Deliverables go to `exports/`** (`reports/` for analyses, `pages/` for finished page copy, `images/` for generated featured/hero images).
 
 ## Agents
 
@@ -46,7 +46,7 @@ This repository is the **`search-engine-optimization` Claude Code plugin and its
 
 ## Skills
 
-`seo-init`, `seo-keyword-research`, `seo-serp-intent`, `seo-competitor-gap-analysis`, `seo-content-brief-generator`, `seo-onpage-optimization`, `seo-internal-linking`, `seo-schema-markup`, `seo-technical-audit`, `seo-backlink-analysis`, `seo-rank-tracking`, `seo-reporting`, `seo-ai`.
+`seo-init`, `seo-keyword-research`, `seo-serp-intent`, `seo-competitor-gap-analysis`, `seo-content-brief-generator`, `seo-onpage-optimization`, `seo-featured-image`, `seo-internal-linking`, `seo-schema-markup`, `seo-technical-audit`, `seo-backlink-analysis`, `seo-rank-tracking`, `seo-reporting`, `seo-ai`.
 
 When installed, skills are namespaced: `/search-engine-optimization:<skill-name>`.
 
@@ -67,4 +67,9 @@ When creating or editing a skill or agent:
 
 ## Data sources
 
-The plugin bundles the **official Semrush MCP** (`plugins/search-engine-optimization/.mcp.json`) — the remote HTTP server at `https://mcp.semrush.com/v1/mcp`, authenticated per-user via OAuth (API-key header is the headless fallback). Skills must always call it for live SEO/traffic/keyword/competitive data rather than answering from general knowledge, and must never fabricate metrics when it's unavailable. Reference the Semrush discovery toolkits generically (e.g. `keyword_research`, `organic_research`) — **do not** hardcode a connector-specific tool prefix like `mcp__claude_ai_semrush-mcp__`, since the tool namespace depends on how each user connected Semrush.
+The plugin bundles two remote MCP servers in `plugins/search-engine-optimization/.mcp.json`, each authenticated per-user via OAuth on first use:
+
+- **Semrush** (`https://mcp.semrush.com/v1/mcp`) — live SEO/traffic/keyword/competitive data (API-key header is the headless fallback). Skills must always call it for that data rather than answering from general knowledge, and must never fabricate metrics when it's unavailable.
+- **Higgsfield** (`https://mcp.higgsfield.ai/mcp`) — AI image/video generation, used by `seo-featured-image` to create 16:9 blog featured images. Skills must generate via the MCP and never fabricate an image (or claim one was made) when it's unavailable.
+
+Reference the discovery toolkits/tools generically (e.g. `keyword_research`, `organic_research`, `generate_image`) — **do not** hardcode a connector-specific tool prefix like `mcp__claude_ai_semrush-mcp__` or `mcp__claude_ai_Higgsfield__`, since the tool namespace depends on how each user connected the server.

@@ -22,6 +22,7 @@ Create these only if they don't already exist — **never overwrite a reference 
 references/
   about.md
   brand-guidelines.md
+  brand-visuals.md
   brand-voice.md
   competitors.md
   keywords.md
@@ -29,12 +30,13 @@ references/
 exports/
   reports/   (deliverables: briefs, audits, research, reports)
   pages/     (finished, ready-to-publish page copy)
+  images/    (generated featured/hero images for blogs + pages)
 ```
 
 ## Steps
 
 1. **Check what already exists.** Look for an existing `references/` directory and list any non-empty files. Do not clobber them.
-2. **Create the `exports/reports/` and `exports/pages/` directories** if absent.
+2. **Create the `exports/reports/`, `exports/pages/`, and `exports/images/` directories** if absent.
 3. **Create each missing `references/*.md` file** with the starter scaffold below — a short heading + prompts telling the user exactly what to put there. Leave the prompts so the file is self-documenting, but keep them as comments/placeholders the user will replace.
 4. **Report back**: list what was created vs. kept, and tell the user to fill in `references/` before running other skills (the quality of every downstream deliverable depends on it). Point them at the two highest-leverage files first: `about.md` and `brand-voice.md`.
 
@@ -58,6 +60,19 @@ exports/
 - **Messaging do's:**
 - **Messaging don'ts:**
 - **Claims/compliance constraints:**
+```
+
+`references/brand-visuals.md`
+```markdown
+# Brand Visuals
+<!-- Visual identity for generated imagery (blog featured images, hero/OG images). Every generated image follows this. -->
+- **Color palette (names + hex):**
+- **Image style (photographic / illustration / 3D / flat vector / mixed):**
+- **Mood & lighting:**
+- **What to depict (subjects, settings, people, props that fit the brand):**
+- **Composition notes (e.g. leave negative space for title overlay):**
+- **Visual don'ts (off-brand styles, clichés, anything to never show):**
+- **Logo / text usage (usually: no rendered text or logos baked into generated images):**
 ```
 
 `references/brand-voice.md`

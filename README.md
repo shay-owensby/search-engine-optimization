@@ -6,7 +6,7 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 
 ## What's inside
 
-**13 skills** (run with `/search-engine-optimization:<name>`):
+**14 skills** (run with `/search-engine-optimization:<name>`):
 
 | | |
 |---|---|
@@ -16,6 +16,7 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 | `seo-competitor-gap-analysis` | Keyword/content/backlink gaps vs. competitors |
 | `seo-content-brief-generator` | Data-backed content briefs from a target keyword |
 | `seo-onpage-optimization` | Score & improve a page against the live SERP |
+| `seo-featured-image` | Generate a 16:9 on-brand featured image for a blog |
 | `seo-internal-linking` | Internal-link map, orphan detection, anchors |
 | `seo-schema-markup` | Generate & validate JSON-LD structured data |
 | `seo-technical-audit` | Triage a crawl by real ranking impact |
@@ -29,7 +30,8 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 ## Requirements
 
 - [Claude Code](https://docs.claude.com/en/docs/claude-code) (CLI, desktop, or IDE extension).
-- *Optional but recommended:* a [Semrush](https://www.semrush.com/) subscription for live keyword, ranking, and backlink data. You authenticate with your own account via OAuth on first use (see [Connect Semrush](#connect-semrush)). Without it, the data-backed skills fall back to web search where possible and otherwise tell you the data is unavailable — they never fabricate metrics.
+- *Optional but recommended:* a [Semrush](https://www.semrush.com/) subscription for live keyword, ranking, and backlink data. You authenticate with your own account via OAuth on first use (see [Connect data sources](#connect-data-sources)). Without it, the data-backed skills fall back to web search where possible and otherwise tell you the data is unavailable — they never fabricate metrics.
+- *Optional:* a [Higgsfield](https://higgsfield.ai/) account for the `seo-featured-image` skill, which generates 16:9 on-brand blog featured images. Authenticated per-user via OAuth on first use. Without it, the skill produces a ready-to-run image prompt instead of an image.
 
 ## Quick start
 
@@ -45,17 +47,21 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 3. **Fill in `references/`** — start with `about.md` and `brand-voice.md`. This is the single source of truth every skill reads; the quality of every output depends on it.
 4. **Run it.** Invoke a skill directly, e.g. `/search-engine-optimization:seo-keyword-research`, or ask the `seo-orchestrator` agent to run a full SEO cycle.
 
-Deliverables are written to `exports/` (`reports/` for analyses, `pages/` for finished copy).
+Deliverables are written to `exports/` (`reports/` for analyses, `pages/` for finished copy, `images/` for generated featured images).
 
 ### Managing multiple projects
 
 The included `client-template/` folder is a ready-made project skeleton (`references/` stubs, `exports/`, and a `.claude/settings.json` that auto-installs this plugin). Copy it per site/client, fill in `references/`, and open it in Claude Code — you'll be prompted to install the plugin automatically, and `autoUpdate` keeps it current.
 
-## Connect Semrush
+## Connect data sources
 
-The plugin bundles the official [Semrush MCP](https://developer.semrush.com/api/introduction/semrush-mcp/) server (hosted at `https://mcp.semrush.com/v1/mcp`). It consumes API units from **your own** Semrush subscription — there are no extra fees from this plugin.
+The plugin bundles two remote MCP servers in [`.mcp.json`](plugins/search-engine-optimization/.mcp.json). Both authenticate per-user via OAuth on first use — nothing is stored in any config file, and each consumes only **your own** account's quota (no extra fees from this plugin). Run `/mcp` anytime to check or re-authenticate either one.
 
-- **OAuth (default, recommended):** the first time a skill calls Semrush, Claude Code prompts you to log into your Semrush account. Nothing is stored in any config file. Run `/mcp` anytime to check or re-authenticate.
+### Semrush — SEO data
+
+The official [Semrush MCP](https://developer.semrush.com/api/introduction/semrush-mcp/) server (`https://mcp.semrush.com/v1/mcp`) powers the keyword, ranking, gap, and backlink skills, consuming API units from your Semrush subscription.
+
+- **OAuth (default, recommended):** the first time a skill calls Semrush, Claude Code prompts you to log into your Semrush account.
 - **API key (for headless / CI):** if OAuth isn't available, add an auth header to [`.mcp.json`](plugins/search-engine-optimization/.mcp.json):
   ```json
   "headers": { "Authorization": "Apikey YOUR_API_KEY" }
@@ -63,6 +69,12 @@ The plugin bundles the official [Semrush MCP](https://developer.semrush.com/api/
   Get your key at [semrush.com/accounts/profile/api](https://www.semrush.com/accounts/profile/api).
 
 No Semrush access? The data-backed skills fall back to web search where they can and otherwise tell you the data is unavailable — they never fabricate metrics.
+
+### Higgsfield — image generation
+
+The [Higgsfield MCP](https://higgsfield.ai/mcp) server (`https://mcp.higgsfield.ai/mcp`) powers `seo-featured-image`, generating a 16:9 on-brand featured image for a blog post. The first time the skill runs, Claude Code prompts you to log into your Higgsfield account; generation draws on your Higgsfield credits.
+
+No Higgsfield access? `seo-featured-image` outputs a finished, ready-to-run image prompt instead of an image — it never fakes a generated image.
 
 ## How it works
 
@@ -74,10 +86,10 @@ Brand context and outputs are **project-relative** — `references/` and `export
 .claude-plugin/marketplace.json          # marketplace catalog
 plugins/search-engine-optimization/      # the plugin
   .claude-plugin/plugin.json             #   manifest
-  skills/                                #   13 SEO skills
+  skills/                                #   14 SEO skills
   agents/                                #   6 SEO agents
   templates/                             #   output templates (shipped with plugin)
-  .mcp.json                              #   Semrush MCP (bring-your-own-key)
+  .mcp.json                              #   Semrush + Higgsfield MCP (per-user OAuth)
 client-template/                         # copy per project (references/ + exports/)
 ```
 
