@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "shay-owensby": {
+      "source": {
+        "source": "github",
+        "repo": "shay-owensby/search-engine-optimization"
+      },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "search-engine-optimization@shay-owensby": true
+  }
+}
