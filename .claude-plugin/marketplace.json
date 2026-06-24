@@ -10,7 +10,7 @@
       "name": "search-engine-optimization",
       "source": "./plugins/search-engine-optimization",
       "description": "End-to-end SEO workflow (skills + agents). Brand context is supplied per-project via references/.",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "author": { "name": "Shay Owensby" },
       "keywords": ["seo", "content", "semrush"]
     }

@@ -3,6 +3,11 @@
 All notable changes to the `search-engine-optimization` plugin are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.0.3] — 2026-06-23
+
+### Fixed
+- Agents now load again. The canonical way to ship plugin agents is to let them auto-discover from the `agents/` directory (like skills from `skills/`) — so the `agents` field is removed from the manifest entirely. The explicit array added in 1.0.2 passed validation but is meant only for agent files outside `agents/`; pointing it at files already in the directory left them unloaded.
+
 ## [1.0.2] — 2026-06-23
 
 ### Fixed
