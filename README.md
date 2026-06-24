@@ -29,7 +29,7 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 ## Requirements
 
 - [Claude Code](https://docs.claude.com/en/docs/claude-code) (CLI, desktop, or IDE extension).
-- *Optional but recommended:* a [Semrush](https://www.semrush.com/) API key for live keyword, ranking, and backlink data. Without it, the data-backed skills fall back to web search where possible and otherwise tell you the data is unavailable — they never fabricate metrics.
+- *Optional but recommended:* a [Semrush](https://www.semrush.com/) subscription for live keyword, ranking, and backlink data. You authenticate with your own account via OAuth on first use (see [Connect Semrush](#connect-semrush)). Without it, the data-backed skills fall back to web search where possible and otherwise tell you the data is unavailable — they never fabricate metrics.
 
 ## Quick start
 
@@ -51,11 +51,18 @@ Deliverables are written to `exports/` (`reports/` for analyses, `pages/` for fi
 
 The included `client-template/` folder is a ready-made project skeleton (`references/` stubs, `exports/`, and a `.claude/settings.json` that auto-installs this plugin). Copy it per site/client, fill in `references/`, and open it in Claude Code — you'll be prompted to install the plugin automatically, and `autoUpdate` keeps it current.
 
-## Bring your own Semrush key
+## Connect Semrush
 
-The plugin bundles a Semrush MCP server. When the plugin is enabled, Claude Code prompts for your `semrush_api_key` and stores it securely (it's injected into the server config as `${user_config.semrush_api_key}` — never written to disk in plaintext). Leave it blank to run without live Semrush data.
+The plugin bundles the official [Semrush MCP](https://developer.semrush.com/api/introduction/semrush-mcp/) server (hosted at `https://mcp.semrush.com/v1/mcp`). It consumes API units from **your own** Semrush subscription — there are no extra fees from this plugin.
 
-> **Status:** the bundled Semrush MCP launch configuration is being finalized. Until then, the Semrush-backed skills degrade gracefully to web search. See [`.mcp.json`](plugins/search-engine-optimization/.mcp.json).
+- **OAuth (default, recommended):** the first time a skill calls Semrush, Claude Code prompts you to log into your Semrush account. Nothing is stored in any config file. Run `/mcp` anytime to check or re-authenticate.
+- **API key (for headless / CI):** if OAuth isn't available, add an auth header to [`.mcp.json`](plugins/search-engine-optimization/.mcp.json):
+  ```json
+  "headers": { "Authorization": "Apikey YOUR_API_KEY" }
+  ```
+  Get your key at [semrush.com/accounts/profile/api](https://www.semrush.com/accounts/profile/api).
+
+No Semrush access? The data-backed skills fall back to web search where they can and otherwise tell you the data is unavailable — they never fabricate metrics.
 
 ## How it works
 

@@ -3,6 +3,15 @@
 All notable changes to the `search-engine-optimization` plugin are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] — 2026-06-23
+
+### Added
+- Bundled the official Semrush MCP server (`https://mcp.semrush.com/v1/mcp`, streamable HTTP) with per-user OAuth, plus a documented API-key header fallback for headless/CI use.
+
+### Changed
+- Skill Semrush references are now connector-agnostic — dropped the hardcoded `mcp__claude_ai_semrush-mcp__` tool prefix so they work however a user connects Semrush.
+- Removed the `userConfig.semrush_api_key` prompt from the manifest (OAuth needs no key).
+
 ## [1.0.0] — 2026-06-23
 
 ### Added

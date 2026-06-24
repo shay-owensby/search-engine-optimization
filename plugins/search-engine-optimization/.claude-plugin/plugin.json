@@ -1,7 +1,7 @@
 {
   "name": "search-engine-optimization",
   "displayName": "Search Engine Optimization",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "End-to-end SEO workflow: keyword research, SERP intent, competitor gap, content briefs, on-page, internal linking, schema, technical audit, backlinks, rank tracking, reporting, and AI search — as skills + agents. Brand context is loaded per-project at runtime.",
   "author": {
     "name": "Shay Owensby",
@@ -10,13 +10,5 @@
   "keywords": ["seo", "content", "keyword-research", "technical-seo", "reporting", "semrush"],
   "skills": "./skills/",
   "agents": "./agents/",
-  "mcpServers": "./.mcp.json",
-  "userConfig": {
-    "semrush_api_key": {
-      "type": "string",
-      "title": "Semrush API key",
-      "description": "Your Semrush API key, used by the bundled Semrush MCP server. Leave blank to run without live Semrush data (skills fall back to web search where possible).",
-      "sensitive": true
-    }
-  }
+  "mcpServers": "./.mcp.json"
 }

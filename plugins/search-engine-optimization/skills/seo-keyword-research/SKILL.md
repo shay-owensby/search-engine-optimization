@@ -19,7 +19,7 @@ The user asks for keyword research, keyword ideas, search volume / difficulty / 
 Read everything relevant in `references/` (positioning, audience, services, voice, location). Use it to choose seeds, judge keyword relevance and intent, and flag terms that are off-brand or out of scope. Never hardcode brand details into this skill — always read them fresh.
 
 ## Step 2 — Run Semrush (discovery → schema → execute)
-Always follow the MCP's own workflow: discovery tool → `get_report_schema` → `execute_report`. Call `mcp__claude_ai_semrush-mcp__keyword_research` once to confirm available reports, then `execute_report` for each report you need. **Always pull real data — never invent volumes, difficulty, or CPC.**
+Always follow the MCP's own workflow: discovery tool → `get_report_schema` → `execute_report`. Call `keyword_research` once to confirm available reports, then `execute_report` for each report you need. **Always pull real data — never invent volumes, difficulty, or CPC.**
 
 For each seed, run the reports that fit the goal:
 

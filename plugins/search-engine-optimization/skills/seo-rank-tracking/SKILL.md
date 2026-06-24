@@ -26,9 +26,9 @@ Choose the data source based on what exists:
 
 | Source | Use it when | Tool |
 | --- | --- | --- |
-| **Position Tracking** | A Semrush project with a tracking campaign already exists for this domain — gives true day-over-day position history, visibility score, and competitor comparison for the tracked set | `mcp__claude_ai_semrush-mcp__tracking_research` (check projects first with `mcp__claude_ai_semrush-mcp__projects_research`) |
-| **Organic positions** | No tracking project, or you need a point-in-time read to compare against a saved baseline report in `exports/reports/` | `mcp__claude_ai_semrush-mcp__organic_research` (domain organic keywords → position `Po`, URL `Ur`, SERP features, volume `Nq`) |
-| **Per-keyword SERP** | Diagnosing a single mover — who ranks now and which SERP features are present | `mcp__claude_ai_semrush-mcp__keyword_research` (`phrase_organic` = who ranks; `phrase_this` = SERP features + trend for one keyword) |
+| **Position Tracking** | A Semrush project with a tracking campaign already exists for this domain — gives true day-over-day position history, visibility score, and competitor comparison for the tracked set | `tracking_research` (check projects first with `projects_research`) |
+| **Organic positions** | No tracking project, or you need a point-in-time read to compare against a saved baseline report in `exports/reports/` | `organic_research` (domain organic keywords → position `Po`, URL `Ur`, SERP features, volume `Nq`) |
+| **Per-keyword SERP** | Diagnosing a single mover — who ranks now and which SERP features are present | `keyword_research` (`phrase_organic` = who ranks; `phrase_this` = SERP features + trend for one keyword) |
 
 If Position Tracking is unavailable and there's no prior baseline in `exports/reports/`, say so plainly: you can establish **today's baseline** and explain that movement detection needs at least one prior reading to compare against. Save the baseline so the next run has a "before."
 

@@ -22,7 +22,7 @@ Read everything relevant in `references/` (positioning, audience, services, voic
 ## Step 2 — Run Semrush (discovery → schema → execute)
 Always follow the MCP's own workflow: discovery tool → `get_report_schema` → `execute_report`. Confirm available reports first via the discovery tool, then run `execute_report` per report. **Always pull real data — never invent authority scores, link counts, anchors, or toxicity signals.**
 
-Primary toolkit: `mcp__claude_ai_semrush-mcp__backlink_research`. Use `mcp__claude_ai_semrush-mcp__overview_research` (or the authority/domain-overview report) to grade linking-domain authority, and `organic_research` only if you need to confirm the competitor set.
+Primary toolkit: `backlink_research`. Use `overview_research` (or the authority/domain-overview report) to grade linking-domain authority, and `organic_research` only if you need to confirm the competitor set.
 
 ### 2a. Confirm competitors (optional)
 If competitors were inferred, validate them: pull your domain's organic competitors and reconcile against brand context before locking the 2–4 set. Strong link-gap targets come from genuine rivals, not incidental overlap.

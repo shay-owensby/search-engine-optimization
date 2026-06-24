@@ -67,4 +67,4 @@ When creating or editing a skill or agent:
 
 ## Data sources
 
-The plugin bundles a **Semrush MCP** (`plugins/search-engine-optimization/.mcp.json`), authenticated per-user via `userConfig.semrush_api_key`. Skills must always call it for live SEO/traffic/keyword/competitive data rather than answering from general knowledge, and must never fabricate metrics when it's unavailable. **Before publishing**, replace the `.mcp.json` placeholders with the real Semrush MCP launch method.
+The plugin bundles the **official Semrush MCP** (`plugins/search-engine-optimization/.mcp.json`) — the remote HTTP server at `https://mcp.semrush.com/v1/mcp`, authenticated per-user via OAuth (API-key header is the headless fallback). Skills must always call it for live SEO/traffic/keyword/competitive data rather than answering from general knowledge, and must never fabricate metrics when it's unavailable. Reference the Semrush discovery toolkits generically (e.g. `keyword_research`, `organic_research`) — **do not** hardcode a connector-specific tool prefix like `mcp__claude_ai_semrush-mcp__`, since the tool namespace depends on how each user connected Semrush.

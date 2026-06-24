@@ -32,7 +32,7 @@ Read everything relevant in `references/` (positioning, services, location, site
 
 ### Path A — Run fresh (Semrush Site Audit, MCP)
 Follow the MCP's own workflow: discovery tool → `get_report_schema` → `execute_report`.
-- Call `mcp__claude_ai_semrush-mcp__siteaudit_research` to list available reports (overview/health score, issues by category, crawled pages, etc.).
+- Call `siteaudit_research` to list available reports (overview/health score, issues by category, crawled pages, etc.).
 - `get_report_schema` for each report you'll pull, then `execute_report`.
 - Pull at minimum: the **overview / site health score**, the **full issues list** (errors / warnings / notices), and where available a **per-URL breakdown** so you can see which pages each issue hits.
 - **Always pull real data — never invent issue counts, health scores, or affected URLs.** If a report errors or the project doesn't exist, say so and switch to ingesting an export or ask the user to set up the campaign.

@@ -23,8 +23,8 @@ Read everything relevant in `references/` (positioning, audience, services, voic
 Always follow the MCP's own workflow: discovery tool → `get_report_schema` → `execute_report`. Confirm available reports first by calling the relevant discovery tools, then run `execute_report` per report. **Always pull real data — never invent volumes, difficulty, authority, or link counts.**
 
 Use **two toolkits**:
-- `mcp__claude_ai_semrush-mcp__organic_research` — for keyword and content gaps.
-- `mcp__claude_ai_semrush-mcp__backlink_research` — for backlink gaps.
+- `organic_research` — for keyword and content gaps.
+- `backlink_research` — for backlink gaps.
 
 ### 2a. Confirm competitors (optional)
 If competitors were inferred or you want to validate them, pull your domain's **organic competitors** report to see who Semrush considers a direct competitor and their overlap with you. Reconcile against brand context before locking the 2–4 set.

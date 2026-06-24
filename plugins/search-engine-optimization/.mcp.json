@@ -1,9 +1,9 @@
 {
-  "_comment": "Semrush MCP server. The user's API key is injected from plugin userConfig (semrush_api_key). BEFORE PUBLISHING: replace the placeholder command/args/url below with the real Semrush MCP launch method you intend to ship (a self-hosted stdio command, or a remote URL + key). See README.md > 'Configure the Semrush MCP'. Until then, leave the key blank to run skills without live Semrush data.",
+  "_comment": "Official Semrush MCP server (streamable HTTP). Claude Code authenticates each user via OAuth on first use — they log into their own Semrush account; nothing is stored in this file. For headless/CI use without OAuth, add an API-key header instead: \"headers\": { \"Authorization\": \"Apikey YOUR_API_KEY\" } (key from https://www.semrush.com/accounts/profile/api). See README.md > 'Connect Semrush'.",
   "mcpServers": {
-    "semrush-mcp": {
-      "command": "REPLACE_WITH_SEMRUSH_MCP_COMMAND",
-      "args": ["REPLACE_WITH_ARGS", "${user_config.semrush_api_key}"]
+    "semrush": {
+      "type": "http",
+      "url": "https://mcp.semrush.com/v1/mcp"
     }
   }
 }
