@@ -6,118 +6,104 @@
 <title>SEO Pipeline Dashboard</title>
 <style>
   :root{
-    --bg:#ffffff; --sidebar:#f7f7f5; --panel:#ffffff; --panel2:#f1f1ef; --inset:#f7f7f5;
-    --border:#ebebea; --border2:#e3e2e0;
-    --text:#37352f; --muted:#787774; --muted2:#9b9a97;
-    --accent:#2383e2; --accent2:#2383e2; --ink:#ffffff;
-    --hover:rgba(55,53,47,.06); --hover2:rgba(55,53,47,.09);
-    --green-bg:#dbeddb; --green-tx:#2b593f;
-    --gray-bg:#e3e2e0; --gray-tx:#5a5852;
-    --blue-bg:#d3e5ef; --blue-tx:#28456c;
-    --purple:#9065b0; --amber:#cb912f; --red:#e03e3e;
-    --shadow:0 1px 2px rgba(15,15,15,.05),0 0 0 1px rgba(15,15,15,.04);
-    --shadow-h:0 4px 12px rgba(15,15,15,.1),0 0 0 1px rgba(15,15,15,.06);
-    --radius:10px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif;
+    --bg:#0c0c0c; --panel:#181818; --panel2:#212121; --inset:#0f0f0f; --border:#272727;
+    --text:#f4f4f5; --muted:#8e8e8e; --muted2:#5c5c5c;
+    --accent:#c6f94d; --accent2:#cffb63; --ink:#0c0c0c;
+    --green:#c6f94d; --amber:#fbbf24; --red:#f87171; --purple:#c084fc;
+    --radius:18px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
-  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55;
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55}
   a{color:var(--accent2);text-decoration:none}
   a:hover{text-decoration:underline}
   code{font-family:var(--mono);font-size:.86em;background:var(--panel2);padding:.12em .4em;border-radius:5px}
   .app{display:grid;grid-template-columns:240px 1fr;height:100vh}
   /* Sidebar */
-  .side{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-  .brand{padding:14px 12px 10px}
-  .brand .logo{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;cursor:default}
-  .brand .mark{width:22px;height:22px;border-radius:6px;background:var(--text);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0}
-  .brand h1{font-size:14px;margin:0;font-weight:600;letter-spacing:-.01em}
-  .brand .sub{color:var(--muted);font-size:11.5px;margin:4px 0 0 8px}
-  .navlabel{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.04em;padding:14px 16px 5px}
-  .nav{padding:2px 8px 10px;overflow:auto;flex:1}
-  .nav button{display:flex;align-items:center;gap:9px;width:100%;background:none;border:0;color:var(--muted);
-    font:inherit;font-size:13.5px;text-align:left;padding:6px 8px;border-radius:6px;cursor:pointer;transition:background .1s}
-  .nav button:hover{background:var(--hover)}
-  .nav button.active{background:var(--hover2);color:var(--text);font-weight:550}
-  .nav button .ico{width:18px;text-align:center;opacity:.95;font-size:14px}
-  .nav button .ct{margin-left:auto;font-size:11px;color:var(--muted2);background:var(--panel2);padding:0 7px;border-radius:20px;font-weight:500}
-  .nav button.active .ct{color:var(--muted);background:rgba(55,53,47,.1)}
-  .side .foot{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted2);line-height:1.6}
-  .pickbtn{display:block;width:calc(100% - 16px);margin:6px 8px;padding:9px;border:0;
-    background:var(--accent);color:var(--ink);border-radius:8px;cursor:pointer;font:inherit;font-weight:600;font-size:13px;text-align:center;transition:filter .12s;box-shadow:var(--shadow)}
-  .pickbtn:hover{filter:brightness(1.05)}
+  .side{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+  .brand{padding:18px 18px 14px;border-bottom:1px solid var(--border)}
+  .brand .logo{display:flex;align-items:center;gap:9px}
+  .brand .mark{width:24px;height:24px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--ink);font-weight:800;font-size:13px;flex-shrink:0}
+  .brand h1{font-size:15px;margin:0;letter-spacing:.2px}
+  .brand .sub{color:var(--muted);font-size:11.5px;margin-top:6px}
+  .nav{padding:10px 8px;overflow:auto;flex:1}
+  .nav button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:var(--muted);
+    font:inherit;text-align:left;padding:10px 12px;border-radius:12px;cursor:pointer;transition:background .12s,color .12s}
+  .nav button:hover{background:var(--panel2);color:var(--text)}
+  .nav button.active{background:var(--accent);color:var(--ink);font-weight:600}
+  .nav button .ico{width:18px;text-align:center;opacity:.9}
+  .nav button .ct{margin-left:auto;font-size:11px;color:var(--muted2);background:var(--inset);padding:1px 8px;border-radius:20px}
+  .nav button.active .ct{color:var(--ink);background:rgba(0,0,0,.16)}
+  .side .foot{padding:12px 14px;border-top:1px solid var(--border);font-size:11px;color:var(--muted2)}
+  .pickbtn{display:block;width:calc(100% - 16px);margin:8px;padding:11px;border:0;
+    background:var(--accent);color:var(--ink);border-radius:14px;cursor:pointer;font:inherit;font-weight:650;text-align:center;transition:filter .12s}
+  .pickbtn:hover{filter:brightness(1.06)}
   /* Main */
-  .main{overflow:auto;padding:18px 56px 80px;max-width:1180px}
-  .head{display:flex;align-items:flex-end;justify-content:space-between;margin:14px 0 30px;gap:16px;flex-wrap:wrap}
-  .pageicon{font-size:46px;line-height:1;display:block;margin-bottom:10px}
-  .sec{margin:32px 0 12px;font-size:12px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em}
-  .head h2{margin:0;font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.1}
-  .head .desc{color:var(--muted);font-size:14px;margin-top:7px;max-width:640px}
-  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border-radius:6px;font-weight:500}
-  .pill.ok{color:var(--green-tx);background:var(--green-bg)}
-  .pill.no{color:var(--gray-tx);background:var(--gray-bg)}
-  /* Notion-style callout (tinted block) */
-  .feature{background:var(--blue-bg)!important;border-color:transparent!important;box-shadow:none!important}
-  .feature .l{color:var(--blue-tx)!important;opacity:.8}
-  .feature .n,.feature .ico{color:var(--blue-tx)!important}
+  .main{overflow:auto;padding:26px 32px 60px}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;gap:16px;flex-wrap:wrap}
+  .head h2{margin:0;font-size:22px}
+  .head .desc{color:var(--muted);font-size:13px;margin-top:4px}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--border)}
+  .pill.ok{color:var(--ink);border:0;background:var(--accent);font-weight:600}
+  .pill.no{color:var(--muted);background:var(--inset)}
+  /* Lime feature card (PIFin-style hero block) */
+  .feature{background:var(--accent)!important;color:var(--ink)!important;border:0!important}
+  .feature .l,.feature .ico,.feature .muted{color:rgba(0,0,0,.6)!important}
+  .feature .n{color:var(--ink)!important}
   /* Cards & grid */
   .grid{display:grid;gap:14px}
   .g3{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
   .g2{grid-template-columns:repeat(auto-fill,minmax(360px,1fr))}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-  .card.click{cursor:pointer;transition:box-shadow .14s,transform .14s}
-  .card.click:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
-  .stat{display:flex;flex-direction:column;gap:6px}
-  .stat .n{font-size:32px;font-weight:700;line-height:1;letter-spacing:-.02em}
-  .stat .l{color:var(--muted);font-size:13px;font-weight:500}
-  .stat .ico{font-size:18px;opacity:.9}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+  .card.click{cursor:pointer;transition:border-color .12s,transform .12s}
+  .card.click:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .stat{display:flex;flex-direction:column;gap:4px}
+  .stat .n{font-size:30px;font-weight:650;line-height:1}
+  .stat .l{color:var(--muted);font-size:12px}
+  .stat .ico{font-size:18px;opacity:.85}
   /* Phase / skill */
   .phase{margin-bottom:26px}
   .phase>.ph-h{display:flex;align-items:center;gap:10px;margin:0 0 12px}
   .phase>.ph-h .dot{width:9px;height:9px;border-radius:50%}
-  .phase>.ph-h h3{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em}
-  .phase>.ph-h .agent{color:var(--muted);font-size:12.5px}
+  .phase>.ph-h h3{margin:0;font-size:15px}
+  .phase>.ph-h .agent{color:var(--muted);font-size:12px}
   .phase>.ph-h .line{flex:1;height:1px;background:var(--border)}
-  .skill{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px 14px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);transition:box-shadow .14s,transform .14s}
-  .skill.click:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .skill{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px 15px;display:flex;flex-direction:column;gap:9px}
   .skill .top{display:flex;align-items:flex-start;gap:8px}
-  .skill .name{font-weight:600;font-size:14px;letter-spacing:-.01em}
-  .skill .blurb{color:var(--muted);font-size:12.5px;line-height:1.5}
+  .skill .name{font-weight:600;font-size:13.5px}
+  .skill .blurb{color:var(--muted);font-size:12px;line-height:1.5}
   .skill .cmdrow{display:flex;align-items:center;gap:6px;margin-top:auto}
   .cmd{flex:1;font-family:var(--mono);font-size:11.5px;background:var(--inset);border:1px solid var(--border);
-    border-radius:6px;padding:7px 9px;color:var(--accent2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .copy{border:1px solid var(--border2);background:var(--panel);color:var(--text);border-radius:6px;font-weight:500;
-    padding:7px 11px;cursor:pointer;font-size:11.5px;white-space:nowrap;transition:background .1s}
-  .copy:hover{background:var(--hover)}
-  .copy.done{color:var(--green-tx);background:var(--green-bg);border-color:transparent}
-  .badge{font-size:11px;padding:2px 9px;border-radius:6px;white-space:nowrap;margin-left:auto;font-weight:500}
-  .badge.has{color:var(--green-tx);background:var(--green-bg)}
-  .badge.none{color:var(--muted2);background:var(--panel2)}
-  .badge.setup{color:var(--purple);background:#f4ecfa}
+    border-radius:7px;padding:7px 9px;color:var(--accent2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .copy{border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:7px;
+    padding:7px 10px;cursor:pointer;font-size:11.5px;white-space:nowrap}
+  .copy:hover{border-color:var(--accent)}
+  .copy.done{color:var(--ink);background:var(--accent);border-color:var(--accent)}
+  .badge{font-size:10.5px;padding:2px 8px;border-radius:20px;white-space:nowrap;margin-left:auto}
+  .badge.has{color:var(--ink);background:var(--accent);border:0;font-weight:600}
+  .badge.none{color:var(--muted2);background:var(--inset);border:1px solid var(--border)}
+  .badge.setup{color:var(--purple);background:var(--inset);border:1px solid #3a2a5a}
   /* Lists / files */
-  .filelist{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-  .filerow{display:flex;align-items:center;gap:12px;background:var(--panel);border-bottom:1px solid var(--border);
-    padding:12px 16px;cursor:pointer;transition:background .1s}
-  .filerow:last-child{border-bottom:0}
-  .filerow:hover{background:var(--hover)}
-  .filerow .fi{font-size:16px;opacity:.75}
-  .filerow .fn{font-weight:500;font-size:14px}
-  .filerow .fm{color:var(--muted2);font-size:12px;margin-left:auto;white-space:nowrap}
-  .filerow .ftag{font-size:11px;color:var(--blue-tx);background:var(--blue-bg);padding:2px 8px;border-radius:6px;font-weight:500}
+  .filelist{display:flex;flex-direction:column;gap:8px}
+  .filerow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--border);
+    border-radius:9px;padding:11px 14px;cursor:pointer}
+  .filerow:hover{border-color:var(--accent)}
+  .filerow .fi{font-size:16px;opacity:.8}
+  .filerow .fn{font-weight:550}
+  .filerow .fm{color:var(--muted2);font-size:11.5px;margin-left:auto;white-space:nowrap}
+  .filerow .ftag{font-size:10.5px;color:var(--accent2);background:var(--inset);border:1px solid var(--border);padding:1px 7px;border-radius:20px}
   /* Images */
-  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
-  .imgcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .14s,transform .14s}
-  .imgcard:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
-  .imgcard img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--panel2)}
-  .imgcard .cap{padding:10px 13px;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .imgcard{background:var(--panel);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .imgcard img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#000}
+  .imgcard .cap{padding:9px 11px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   /* Doc viewer (markdown) */
-  .md{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:40px 52px;max-width:820px;box-shadow:var(--shadow)}
-  .md h1{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:.1em 0 .5em}
-  .md h2{font-size:22px;font-weight:650;letter-spacing:-.01em;margin:1.5em 0 .4em}
-  .md h3{font-size:17px;font-weight:600;margin:1.3em 0 .35em}
-  .md h4{font-size:14px;font-weight:600;margin:1em 0 .3em;color:var(--muted)}
+  .md{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;max-width:900px}
+  .md h1{font-size:24px;margin:.2em 0 .6em;border-bottom:1px solid var(--border);padding-bottom:.3em}
+  .md h2{font-size:19px;margin:1.4em 0 .5em;border-bottom:1px solid var(--border);padding-bottom:.25em}
+  .md h3{font-size:16px;margin:1.2em 0 .4em}
+  .md h4{font-size:14px;margin:1em 0 .3em;color:var(--muted)}
   .md p{margin:.6em 0}
   .md ul,.md ol{margin:.5em 0;padding-left:1.5em}
   .md li{margin:.25em 0}
@@ -130,28 +116,26 @@
   .md pre code{background:none;padding:0}
   .md hr{border:0;border-top:1px solid var(--border);margin:1.4em 0}
   .md img{max-width:100%;border-radius:8px;border:1px solid var(--border)}
-  .back{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:7px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;font-weight:500;margin-bottom:18px;transition:background .1s}
-  .back:hover{background:var(--hover);color:var(--text)}
+  .back{background:none;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 13px;cursor:pointer;font:inherit;margin-bottom:16px}
+  .back:hover{border-color:var(--accent)}
   /* Empty / misc */
   .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
     min-height:60vh;color:var(--muted);gap:14px}
-  .empty .big{font-size:52px}
-  .empty h3{margin:0;color:var(--text);font-size:18px;font-weight:600}
-  .empty .hint{max-width:460px;font-size:13.5px;line-height:1.6}
+  .empty .big{font-size:46px}
+  .empty h3{margin:0;color:var(--text)}
+  .empty .hint{max-width:440px;font-size:13px}
   .empty code{font-size:12px}
   .muted{color:var(--muted)}
-  .search{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--border2);color:var(--text);
-    border-radius:8px;padding:9px 13px;font:inherit;font-size:13.5px;margin-bottom:18px;box-shadow:var(--shadow)}
-  .search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(35,131,226,.12)}
-  .agentgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-  .agentcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);transition:box-shadow .14s,transform .14s}
-  .agentcard:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
-  .agentcard .ah{display:flex;align-items:center;gap:10px}
-  .agentcard .ah .av{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-  .agentcard .nm{font-weight:600;font-size:14.5px;letter-spacing:-.01em}
-  .agentcard .ro{color:var(--muted);font-size:13px;line-height:1.5}
-  .agentcard .owns{font-size:11.5px;color:var(--muted2);font-weight:500;text-transform:uppercase;letter-spacing:.03em;margin-top:2px}
-  .tag{display:inline-block;font-size:11.5px;color:var(--gray-tx);background:var(--gray-bg);padding:2px 8px;border-radius:6px;margin:3px 4px 0 0;font-weight:500}
+  .search{width:100%;max-width:360px;background:var(--inset);border:1px solid var(--border);color:var(--text);
+    border-radius:8px;padding:8px 12px;font:inherit;margin-bottom:16px}
+  .agentgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .agentcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:8px}
+  .agentcard .ah{display:flex;align-items:center;gap:9px}
+  .agentcard .ah .av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+  .agentcard .nm{font-weight:600;font-size:14px}
+  .agentcard .ro{color:var(--muted);font-size:12.5px}
+  .agentcard .owns{font-size:11.5px;color:var(--muted2)}
+  .tag{display:inline-block;font-size:10.5px;color:var(--accent2);background:var(--inset);border:1px solid var(--border);padding:1px 7px;border-radius:20px;margin:2px 3px 0 0}
 </style>
 </head>
 <body>
@@ -161,11 +145,10 @@
       <div class="logo"><span class="mark">S</span><h1>SEO Pipeline</h1></div>
       <div class="sub" id="brandSub">No workspace loaded</div>
     </div>
-    <button class="pickbtn" id="pickBtn">Open workspace folder</button>
+    <button class="pickbtn" id="pickBtn">📂 Open workspace folder</button>
     <input type="file" id="picker" webkitdirectory directory multiple hidden>
-    <div class="navlabel">Workspace</div>
     <nav class="nav" id="nav"></nav>
-    <div class="foot">Read-only · local &amp; offline<br>Reads <code>exports/</code> &amp; <code>references/</code></div>
+    <div class="foot">Read-only viewer · local &amp; offline<br>Reads <code>exports/</code> &amp; <code>references/</code></div>
   </aside>
   <main class="main" id="main"></main>
 </div>
@@ -176,20 +159,20 @@
 /* ---------- Static pipeline catalog (skills + agents live in the plugin, not the client folder) ---------- */
 const NS = "search-engine-optimization";
 const AGENTS = {
-  orchestrator:{nm:"seo-cycle (skill)", role:"Sequences the specialists end to end into one ranked plan. Run with /search-engine-optimization:seo-cycle.", color:"#9065b0", ico:"🧭"},
-  strategist:  {nm:"seo-strategist",   role:"Research & targeting — keywords, gaps, intent, topic maps.", color:"#487ca5", ico:"🎯"},
-  architect:   {nm:"seo-content-architect", role:"Content structure, briefs, on-page, internal linking.", color:"#548164", ico:"✍️"},
-  technical:   {nm:"seo-technical-engineer", role:"Technical SEO — audits, crawlability, schema/JSON-LD.", color:"#cc782f", ico:"🔧"},
-  authority:   {nm:"seo-authority-agent", role:"Off-page authority — backlinks, link gaps, disavow.", color:"#c4554d", ico:"🔗"},
-  analyst:     {nm:"seo-analyst",       role:"Measurement, rank tracking & stakeholder reporting.", color:"#b35588", ico:"📊"},
+  orchestrator:{nm:"seo-cycle (skill)", role:"Sequences the specialists end to end into one ranked plan. Run with /search-engine-optimization:seo-cycle.", color:"#c6f94d", ico:"🧭"},
+  strategist:  {nm:"seo-strategist",   role:"Research & targeting — keywords, gaps, intent, topic maps.", color:"#7dd3fc", ico:"🎯"},
+  architect:   {nm:"seo-content-architect", role:"Content structure, briefs, on-page, internal linking.", color:"#86efac", ico:"✍️"},
+  technical:   {nm:"seo-technical-engineer", role:"Technical SEO — audits, crawlability, schema/JSON-LD.", color:"#fcd34d", ico:"🔧"},
+  authority:   {nm:"seo-authority-agent", role:"Off-page authority — backlinks, link gaps, disavow.", color:"#fda4af", ico:"🔗"},
+  analyst:     {nm:"seo-analyst",       role:"Measurement, rank tracking & stakeholder reporting.", color:"#d8b4fe", ico:"📊"},
 };
 const PHASES = [
-  {key:"setup", title:"Setup", color:"#9065b0", agent:"orchestrator", skills:[
+  {key:"setup", title:"Setup", color:"#c6f94d", agent:"orchestrator", skills:[
     {slug:"seo-init", name:"Workspace init", out:"setup",
      blurb:"Scaffold references/ + exports/ for a new client. Run once.",
      kw:["init"]},
   ]},
-  {key:"research", title:"Research & Strategy", color:"#487ca5", agent:"strategist", skills:[
+  {key:"research", title:"Research & Strategy", color:"#7dd3fc", agent:"strategist", skills:[
     {slug:"seo-keyword-research", name:"Keyword research", out:"reports",
      blurb:"Volume, difficulty, related & question keywords; prioritized list.", kw:["keyword-research","keyword_research","keyword","keywords"]},
     {slug:"seo-serp-intent", name:"SERP intent", out:"reports",
@@ -197,7 +180,7 @@ const PHASES = [
     {slug:"seo-competitor-gap-analysis", name:"Competitor gap", out:"reports",
      blurb:"Keywords/content/backlinks rivals have that you don't.", kw:["competitor-gap","competitor","gap"]},
   ]},
-  {key:"content", title:"Content", color:"#548164", agent:"architect", skills:[
+  {key:"content", title:"Content", color:"#86efac", agent:"architect", skills:[
     {slug:"seo-content-brief-generator", name:"Content brief", out:"reports",
      blurb:"Data-backed brief from one keyword — headings, entities, PAA.", kw:["content-brief","brief"]},
     {slug:"seo-onpage-optimization", name:"On-page optimization", out:"reports",
@@ -209,17 +192,17 @@ const PHASES = [
     {slug:"seo-ai", name:"AI / answer-engine SEO", out:"reports",
      blurb:"Optimize content to get cited by ChatGPT, Perplexity, AI Overviews.", kw:["ai-optimization","ai-optimisation","ai-search","geo","aeo","seo-ai"]},
   ]},
-  {key:"technical", title:"Technical", color:"#cc782f", agent:"technical", skills:[
+  {key:"technical", title:"Technical", color:"#fcd34d", agent:"technical", skills:[
     {slug:"seo-technical-audit", name:"Technical audit", out:"reports",
      blurb:"Crawl triage into Fix now / Fix soon / Ignore, with fixes.", kw:["technical-audit","technical","audit","crawl"]},
     {slug:"seo-schema-markup", name:"Schema markup", out:"reports",
      blurb:"Valid JSON-LD structured data + rich-result opportunities.", kw:["schema","json-ld","jsonld","structured-data"]},
   ]},
-  {key:"authority", title:"Authority", color:"#c4554d", agent:"authority", skills:[
+  {key:"authority", title:"Authority", color:"#fda4af", agent:"authority", skills:[
     {slug:"seo-backlink-analysis", name:"Backlink analysis", out:"reports",
      blurb:"Link gap vs competitors, prospect scoring, toxic-link review.", kw:["backlink","referring","link-gap","disavow"]},
   ]},
-  {key:"measure", title:"Measurement & Reporting", color:"#b35588", agent:"analyst", skills:[
+  {key:"measure", title:"Measurement & Reporting", color:"#d8b4fe", agent:"analyst", skills:[
     {slug:"seo-rank-tracking", name:"Rank tracking", out:"reports",
      blurb:"Position movement over time + likely cause of each real change.", kw:["rank-tracking","rank","tracking","movement","position"]},
     {slug:"seo-reporting", name:"Performance reporting", out:"reports",
@@ -372,8 +355,8 @@ function mdToHtml(md){
 /* ---------- Render ---------- */
 const main=document.getElementById("main");
 const NAV=[
-  {id:"overview", ico:"🏠", label:"Overview"},
-  {id:"pipeline", ico:"🧩", label:"Pipeline"},
+  {id:"overview", ico:"▦", label:"Overview"},
+  {id:"pipeline", ico:"⛓", label:"Pipeline"},
   {id:"reports",  ico:"📄", label:"Reports",  count:()=>WS&&WS.reports.length},
   {id:"pages",    ico:"📰", label:"Pages",    count:()=>WS&&WS.pages.length},
   {id:"images",   ico:"🖼", label:"Images",   count:()=>WS&&WS.images.filter(i=>i.kind==="img").length},
@@ -434,15 +417,15 @@ function overview(){
   // recent
   const recent=[...WS.reports,...WS.pages].sort((a,b)=>b.lastModified-a.lastModified).slice(0,6);
   return `
-  <div class="head"><div><span class="pageicon">📊</span><h2>${escAttr(WS.name)}</h2>
+  <div class="head"><div><h2>${escAttr(WS.name)}</h2>
     <div class="desc">SEO pipeline workspace · ${refs} reference file${refs===1?"":"s"} loaded</div></div></div>
-  <div class="grid g3">
+  <div class="grid g3" style="margin-bottom:26px">
     ${cards.map(c=>`<div class="card click stat ${c.feat?'feature':''}" data-go="${c.v}">
       <div style="display:flex;justify-content:space-between"><span class="ico">${c.ico}</span></div>
       <div class="n">${c.n}</div><div class="l">${c.l}</div></div>`).join("")}
   </div>
-  <div class="sec">Pipeline at a glance</div>
-  <div class="grid g3">
+  <h3 style="margin:0 0 12px;font-size:15px">Pipeline at a glance</h3>
+  <div class="grid g3" style="margin-bottom:28px">
     ${PHASES.filter(p=>p.key!=="setup").map(p=>{
       const tot=p.skills.length, done=p.skills.filter(s=>skillRan(s.slug)).length;
       const ag=AGENTS[p.agent];
@@ -452,13 +435,13 @@ function overview(){
         <div class="muted" style="font-size:12px;margin-top:6px">${ag.ico} ${ag.nm}</div></div>`;
     }).join("")}
   </div>
-  ${recent.length?`<div class="sec">Recent deliverables</div>
+  ${recent.length?`<h3 style="margin:0 0 12px;font-size:15px">Recent deliverables</h3>
   <div class="filelist">${recent.map(d=>fileRow(d)).join("")}</div>`:""}
   `;
 }
 
 function pipeline(){
-  return `<div class="head"><div><span class="pageicon">🧩</span><h2>Pipeline</h2>
+  return `<div class="head"><div><h2>Pipeline</h2>
     <div class="desc">Each stage's skills, who owns them, and whether they've produced output in this workspace.</div></div></div>
   ${PHASES.map(p=>{
     const ag=AGENTS[p.agent];
@@ -489,7 +472,7 @@ function skillCard(s){
 }
 
 function skillsView(){
-  return `<div class="head"><div><span class="pageicon">⚡</span><h2>Skills</h2>
+  return `<div class="head"><div><h2>Skills</h2>
     <div class="desc">${ALL_SKILLS.length} pipeline skills. Copy a command and paste it into Claude Code to run.</div></div></div>
   <input class="search" id="skSearch" placeholder="Filter skills…">
   <div class="grid g3" id="skGrid">${ALL_SKILLS.map(s=>skillCard(s)).join("")}</div>`;
@@ -498,7 +481,7 @@ function skillsView(){
 function agentsView(){
   const owns={};
   for(const s of ALL_SKILLS){ (owns[s.agent] ??= []).push(s); }
-  return `<div class="head"><div><span class="pageicon">🤖</span><h2>Agents</h2>
+  return `<div class="head"><div><h2>Agents</h2>
     <div class="desc">Five specialist agents, sequenced by the seo-cycle skill. Mention an agent by name in Claude Code to invoke it, or run /search-engine-optimization:seo-cycle for a full cycle.</div></div></div>
   <div class="agentgrid">${Object.entries(AGENTS).map(([k,a])=>{
     const skills=owns[k]||[];
@@ -512,10 +495,10 @@ function agentsView(){
 }
 
 function fileListView(title,ico,arr,sub){
-  if(!arr.length) return `<div class="head"><div><span class="pageicon">${ico}</span><h2>${title}</h2></div></div>
-    <div class="empty" style="min-height:36vh"><div class="big">${ico}</div>
+  if(!arr.length) return `<div class="head"><h2>${title}</h2></div>
+    <div class="empty" style="min-height:40vh"><div class="big">${ico}</div>
     <h3>No ${title.toLowerCase()} yet</h3><div class="hint">Run a pipeline skill in Claude Code and its output will land in <code>exports/${sub}</code>.</div></div>`;
-  return `<div class="head"><div><span class="pageicon">${ico}</span><h2>${title}</h2>
+  return `<div class="head"><div><h2>${title}</h2>
     <div class="desc">${arr.length} file${arr.length===1?"":"s"} in <code>exports/${sub}</code></div></div></div>
   <input class="search" id="flSearch" placeholder="Filter…">
   <div class="filelist" id="flList">${arr.map(d=>fileRow(d)).join("")}</div>`;
@@ -534,15 +517,15 @@ function fileRow(d){
 function imagesView(){
   const imgs=WS.images.filter(i=>i.kind==="img");
   const docs=WS.images.filter(i=>i.kind==="imgdoc");
-  if(!imgs.length && !docs.length) return `<div class="head"><div><span class="pageicon">🖼</span><h2>Images</h2></div></div>
-    <div class="empty" style="min-height:36vh"><div class="big">🖼</div>
+  if(!imgs.length && !docs.length) return `<div class="head"><h2>Images</h2></div>
+    <div class="empty" style="min-height:40vh"><div class="big">🖼</div>
     <h3>No images yet</h3><div class="hint">Run <code>/${NS}:seo-featured-image</code> and generated images land in <code>exports/images</code>.</div></div>`;
-  return `<div class="head"><div><span class="pageicon">🖼</span><h2>Images</h2>
+  return `<div class="head"><div><h2>Images</h2>
     <div class="desc">${imgs.length} image${imgs.length===1?"":"s"} in <code>exports/images</code></div></div></div>
   <div class="gallery">${imgs.map(im=>`<div class="imgcard">
     <a href="${im.url}" target="_blank"><img src="${im.url}" alt="${escAttr(im.name)}"></a>
     <div class="cap" title="${escAttr(im.name)}">${escAttr(im.name)}</div></div>`).join("")}</div>
-  ${docs.length?`<div class="sec">Prompt records</div>
+  ${docs.length?`<h3 style="margin:26px 0 12px;font-size:15px">Prompt records</h3>
    <div class="filelist">${docs.map(d=>fileRow(d)).join("")}</div>`:""}`;
 }
 
