@@ -1,7 +1,7 @@
 {
   "name": "search-engine-optimization",
   "displayName": "Search Engine Optimization",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "End-to-end SEO workflow: keyword research, SERP intent, competitor gap, content briefs, on-page, featured-image generation, internal linking, schema, technical audit, backlinks, rank tracking, reporting, and AI search — as skills + agents. Brand context is loaded per-project at runtime.",
   "author": {
     "name": "Shay Owensby",

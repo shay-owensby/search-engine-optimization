@@ -32,7 +32,7 @@ Reconcile into a single ranked list of up to 10 organic URLs. **Exclude** pure a
 ## Step 3 — Scrape and extract from each ranking page
 `WebFetch` each URL and extract, per page:
 - **Headings** — the H1 and the full H2/H3 outline (the page's content skeleton).
-- **Entities** — the concrete nouns the page treats as must-cover: products, services, brands, breeds/models, ingredients, tools, places, people, standards, certifications, related concepts. These are the topical building blocks Google expects.
+- **Entities** — the concrete nouns the page treats as must-cover: products, services, breeds/models, ingredients, tools, places, people, standards, certifications, related concepts. These are the topical building blocks Google expects. **Exclude competitor brand names, product names, and staff/owner names** — a rival's brand is never an entity the client's page should cover; drop it here so it can't propagate into the brief, headings, or meta.
 - **Questions** — any question-phrased headings, FAQ blocks, or query-style subheads on the page.
 - **Word count** — approximate body word count (for the length target).
 
@@ -71,6 +71,8 @@ Fill in `${CLAUDE_PLUGIN_ROOT}/templates/seo-content-brief.md` and save to `expo
 
 ## Rules
 - Always load `references/` before producing anything; keep all prose in brand voice.
+- **Never let a competitor's brand into the client's brief.** Scraped competitor pages inform topics and structure only — filter competitor brand/product/owner names out of the entity list, the suggested headings, and especially the meta title/description draft. The client's title tag must name the *client's* brand, never a rival's.
+- **Honor brand constraints from `references/brand-guidelines.md`.** Before drafting headings, meta, or any copy, check for prohibited/regulated claims (e.g. medical or therapeutic claims) and never spec content that makes them — note the constraint in the brief instead.
 - Always base the brief on **live** SERP data — scrape real ranking pages and pull real Semrush metrics. Never fabricate rankings, headings, entities, PAA questions, word counts, or volumes. If a page can't be fetched or a report errors, say so and work from what you have.
 - Suggest internal links only to real or describable brand pages; mark unknown URLs "to confirm" rather than inventing them.
 - Set word count from the SERP, not a quota — recommend depth that matches or beats what ranks, never padding.

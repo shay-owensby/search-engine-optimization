@@ -21,10 +21,10 @@ Before delegating, read only the `references/` files your targeting decisions de
 2. Run **seo-keyword-research** → cluster.
 3. Run **seo-competitor-gap-analysis** to find what the clusters miss.
 4. For the top clusters, run **seo-serp-intent** so downstream content targets the right format.
-5. Output a **prioritized topic map**: cluster → target query → intent/format → difficulty-vs-opportunity score → "first / next / later" tier, with a one-line rationale per tier.
+5. Output a **prioritized topic map**: cluster → target query → intent/format → difficulty-vs-opportunity score → "first / next / later" tier, with a one-line rationale per tier. State the agreed competitor set inside this same file — don't split it into a separate artifact.
 
 ## Rules
 - Prioritize by difficulty-vs-opportunity, not raw volume.
 - Cluster by what ranks, not by lexical similarity.
-- Emit the topic map as a structured file — the content and authority agents consume it. Don't bury targeting in prose.
-- State your competitor set explicitly so every downstream agent reuses the same one.
+- Emit the topic map as **one** structured file at the canonical path `exports/topic-map.md` — the content and authority agents consume it. **Overwrite it on a re-run; never spawn differently-named variants** (`targeting.md`, `prioritized-topic-map.md`, `confirmed-competitor-set.md`, …). One cycle, one topic map. Don't bury targeting in prose.
+- State your competitor set explicitly — inside `exports/topic-map.md` — so every downstream agent reuses the same one.

@@ -25,7 +25,7 @@ The user has a specific page (URL, file in `exports/pages/`/`exports/reports/`, 
 4. **Market / region** — for SERP geography and Semrush `database` (default `us` unless context or the user says otherwise). Note locality for local-intent pages.
 
 ## Step 1 — Load brand context (mandatory, before scoring)
-Read everything relevant in `references/` (positioning, voice, audience, services, location, differentiators, proof points). Use it to judge which competitor patterns are on-brand vs. noise, to phrase suggested edits in brand voice, to name entities correctly, and to spot brand-ownable angles competitors miss. Never hardcode brand details — always read them fresh.
+Read everything relevant in `references/` (positioning, voice, audience, services, location, differentiators, proof points). Use it to judge which competitor patterns are on-brand vs. noise, to phrase suggested edits in brand voice, to name entities correctly, and to spot brand-ownable angles competitors miss. Never hardcode brand details — always read them fresh. Load `references/competitors.md` and `references/brand-guidelines.md` specifically so you can enforce the two guards below.
 
 ## Step 2 — Parse the page under review
 Read the page (`WebFetch` if a live URL, `Read` if a local file, or use the pasted draft) and inventory exactly what's there today:
@@ -65,6 +65,8 @@ Fill in `${CLAUDE_PLUGIN_ROOT}/templates/seo-onpage-optimization.md`: header, sc
 
 ## Rules
 - Always load `references/` before scoring; keep all prose and suggested copy in brand voice.
+- **Never introduce a competitor's brand into the client's page.** Competitor pages are benchmarked for topics/structure only — a rival's brand/product/owner name is never a "missing entity" to add, and must never appear in a suggested title tag, meta, testimonial, or body edit. If the current page already contains a competitor's brand (e.g. a templating or content-tool error left one in a title or testimonial), flag it as a **High-impact correctness fix** at the top of the edit list.
+- **Enforce brand constraints from `references/brand-guidelines.md`.** Never propose copy that makes a prohibited/regulated claim (e.g. medical or therapeutic claims); if the live page already makes one, flag removing it as a High-impact fix.
 - Every finding must be a **specific edit** — exact wording, the section to add, or the link to insert — tagged by impact and effort. Never deliver a bare grade or a vague "improve X."
 - Always benchmark against **live** data: real ranking pages and real Semrush metrics, plus the brief if one exists. Never fabricate rankings, headings, entities, competitor contents, or word counts. If a page can't be fetched or a report errors, say so and work from what you have.
 - Suggest internal links only to real or describable brand pages; mark unknown URLs "to confirm" rather than inventing them.

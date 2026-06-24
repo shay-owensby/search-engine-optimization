@@ -27,6 +27,8 @@ Before delegating, read only the `references/` files your content decisions depe
 ## Rules
 - Briefs must be actionable enough that a writer needs no further research.
 - On-page output is concrete edits ("add an H2 covering X", "change title to Y"), never a vague score.
+- **Never put a competitor's brand name into the client's own copy.** Competitor pages are scraped only to learn *topics, entities, and structure* — a rival's brand name is noise to filter, never a "must-cover entity" to copy into the client's title tags, meta, testimonials, or body. Before emitting any title/meta/copy, scan it against the competitor set in `references/competitors.md` (and the topic map) and strip any competitor brand that leaked in.
+- **Enforce brand constraints before emitting copy.** Read `references/brand-guidelines.md` first and honor every prohibited/regulated claim (e.g. medical, therapeutic, or guarantee language a brand can't make). Never draft or approve copy that violates them; flag the constraint instead.
 - Respect SERP intent — don't spec a long guide when the SERP is tools or product pages.
 - Every blog/article ships with a featured image — a 16:9, on-brand, topic-relevant image via **seo-featured-image**.
 - Emit briefs and edit lists as files so they're directly handoff-ready.

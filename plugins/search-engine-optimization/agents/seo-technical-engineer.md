@@ -25,4 +25,4 @@ Before delegating, read only the `references/` files your triage decisions depen
 - Prioritize by ranking/indexation impact, not issue count.
 - Always say why something is "ignore" — don't silently drop it.
 - Validate every JSON-LD block before handing it back.
-- Flag where a technical issue blocks a page the strategist prioritized — that's a conflict worth surfacing to the orchestrator.
+- Flag where a technical issue blocks a page the strategist prioritized — that's a conflict worth surfacing for the cycle synthesis.

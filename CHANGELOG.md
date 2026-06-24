@@ -3,6 +3,17 @@
 All notable changes to the `search-engine-optimization` plugin are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] — 2026-06-23
+
+### Fixed
+- **Full SEO cycles no longer stall.** The `seo-orchestrator` agent was an agent whose whole job was to spawn other agents via `Task` — but a subagent can't reliably spawn further subagents, so when invoked it dispatched its children and then stopped instead of running the cycle. Replaced it with a new **`seo-cycle` skill** that runs in the main session (where `Task` works), launches each specialist agent, waits for it, and drives the whole cycle to one ranked action plan. The `seo-orchestrator` agent is removed.
+- **No more redundant, duplicate targeting files.** The strategist had no canonical output path, so re-dispatches produced differently-named variants (`targeting.md`, `prioritized-topic-map.md`, `confirmed-competitor-set.md`, …). `seo-strategist` now emits exactly one file at `exports/topic-map.md` (competitor set included) and overwrites it on re-run; `seo-cycle` additionally dispatches each specialist only once per cycle (idempotency check against `exports/` first).
+
+### Added
+- Guardrails closing two content-quality leaks surfaced in production:
+  - **Competitor brand names can no longer bleed into the client's own copy.** `seo-content-brief-generator` and `seo-onpage-optimization` (and the `seo-content-architect` agent) now treat a rival's brand/product/owner name as noise to filter — never a "must-cover entity," and never permitted in a suggested title tag, meta, testimonial, or body edit. `seo-onpage-optimization` flags any competitor brand already present on a live page as a High-impact correctness fix.
+  - **Brand-prohibited claims are enforced before copy is emitted.** The content skills and agent now read `references/brand-guidelines.md` and refuse to draft or approve copy that makes a prohibited/regulated claim (e.g. medical or therapeutic), flagging the constraint instead.
+
 ## [1.1.0] — 2026-06-23
 
 ### Added

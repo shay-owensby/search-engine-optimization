@@ -37,16 +37,19 @@ This repository is the **`search-engine-optimization` Claude Code plugin and its
 
 ## Agents
 
-- `seo-orchestrator` — Coordinates the other agents and routes work.
 - `seo-strategist` — SEO strategy and prioritization.
 - `seo-content-architect` — Content structure and briefs.
 - `seo-technical-engineer` — Technical SEO and implementation.
 - `seo-authority-agent` — Backlinks and off-page authority.
 - `seo-analyst` — Measurement, analysis, and reporting.
 
+Full multi-phase cycles are driven by the `seo-cycle` **skill**, not an agent. Orchestration must run in the main session so the `Task` tool can launch and wait on these specialist agents — an agent that spawns agents stalls (subagents can't reliably spawn subagents), so there is intentionally no orchestrator agent.
+
 ## Skills
 
-`seo-init`, `seo-keyword-research`, `seo-serp-intent`, `seo-competitor-gap-analysis`, `seo-content-brief-generator`, `seo-onpage-optimization`, `seo-featured-image`, `seo-internal-linking`, `seo-schema-markup`, `seo-technical-audit`, `seo-backlink-analysis`, `seo-rank-tracking`, `seo-reporting`, `seo-ai`.
+`seo-init`, `seo-cycle`, `seo-keyword-research`, `seo-serp-intent`, `seo-competitor-gap-analysis`, `seo-content-brief-generator`, `seo-onpage-optimization`, `seo-featured-image`, `seo-internal-linking`, `seo-schema-markup`, `seo-technical-audit`, `seo-backlink-analysis`, `seo-rank-tracking`, `seo-reporting`, `seo-ai`.
+
+`seo-cycle` is the top-level orchestrator: it sequences the five specialist agents end to end (research → content + technical → off-page → reporting) and synthesizes one ranked action plan.
 
 When installed, skills are namespaced: `/search-engine-optimization:<skill-name>`.
 

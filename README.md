@@ -6,11 +6,12 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 
 ## What's inside
 
-**14 skills** (run with `/search-engine-optimization:<name>`):
+**15 skills** (run with `/search-engine-optimization:<name>`):
 
 | | |
 |---|---|
 | `seo-init` | Scaffold a new project's `references/` + `exports/` |
+| `seo-cycle` | Run a full multi-phase SEO cycle end to end |
 | `seo-keyword-research` | Keyword research, volume/difficulty, clustering |
 | `seo-serp-intent` | Diagnose search intent from what actually ranks |
 | `seo-competitor-gap-analysis` | Keyword/content/backlink gaps vs. competitors |
@@ -25,7 +26,7 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
 | `seo-reporting` | Stakeholder report: what moved, why, what's next |
 | `seo-ai` | Optimize content to get cited by AI search / LLMs |
 
-**6 agents** that orchestrate the skills: `seo-orchestrator` (runs full cycles), `seo-strategist`, `seo-content-architect`, `seo-technical-engineer`, `seo-authority-agent`, `seo-analyst`.
+**5 specialist agents** the skills delegate to: `seo-strategist`, `seo-content-architect`, `seo-technical-engineer`, `seo-authority-agent`, `seo-analyst`. Full end-to-end cycles are driven by the `seo-cycle` skill, which sequences these agents and stitches their output into one ranked plan — it runs in the main session so it can launch and wait on each agent.
 
 ## Requirements
 
@@ -45,7 +46,7 @@ The workflow is **brand-agnostic**. You supply your brand context once, in a per
    /search-engine-optimization:seo-init
    ```
 3. **Fill in `references/`** — start with `about.md` and `brand-voice.md`. This is the single source of truth every skill reads; the quality of every output depends on it.
-4. **Run it.** Invoke a skill directly, e.g. `/search-engine-optimization:seo-keyword-research`, or ask the `seo-orchestrator` agent to run a full SEO cycle.
+4. **Run it.** Invoke a skill directly, e.g. `/search-engine-optimization:seo-keyword-research`, or run `/search-engine-optimization:seo-cycle` for a full end-to-end SEO cycle.
 
 Deliverables are written to `exports/` (`reports/` for analyses, `pages/` for finished copy, `images/` for generated featured images).
 

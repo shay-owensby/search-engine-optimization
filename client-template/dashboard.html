@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEO Pipeline Dashboard</title>
+<style>
+  :root{
+    --bg:#ffffff; --sidebar:#f7f7f5; --panel:#ffffff; --panel2:#f1f1ef; --inset:#f7f7f5;
+    --border:#ebebea; --border2:#e3e2e0;
+    --text:#37352f; --muted:#787774; --muted2:#9b9a97;
+    --accent:#2383e2; --accent2:#2383e2; --ink:#ffffff;
+    --hover:rgba(55,53,47,.06); --hover2:rgba(55,53,47,.09);
+    --green-bg:#dbeddb; --green-tx:#2b593f;
+    --gray-bg:#e3e2e0; --gray-tx:#5a5852;
+    --blue-bg:#d3e5ef; --blue-tx:#28456c;
+    --purple:#9065b0; --amber:#cb912f; --red:#e03e3e;
+    --shadow:0 1px 2px rgba(15,15,15,.05),0 0 0 1px rgba(15,15,15,.04);
+    --shadow-h:0 4px 12px rgba(15,15,15,.1),0 0 0 1px rgba(15,15,15,.06);
+    --radius:10px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code{font-family:var(--mono);font-size:.86em;background:var(--panel2);padding:.12em .4em;border-radius:5px}
+  .app{display:grid;grid-template-columns:240px 1fr;height:100vh}
+  /* Sidebar */
+  .side{background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+  .brand{padding:14px 12px 10px}
+  .brand .logo{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;cursor:default}
+  .brand .mark{width:22px;height:22px;border-radius:6px;background:var(--text);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0}
+  .brand h1{font-size:14px;margin:0;font-weight:600;letter-spacing:-.01em}
+  .brand .sub{color:var(--muted);font-size:11.5px;margin:4px 0 0 8px}
+  .navlabel{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.04em;padding:14px 16px 5px}
+  .nav{padding:2px 8px 10px;overflow:auto;flex:1}
+  .nav button{display:flex;align-items:center;gap:9px;width:100%;background:none;border:0;color:var(--muted);
+    font:inherit;font-size:13.5px;text-align:left;padding:6px 8px;border-radius:6px;cursor:pointer;transition:background .1s}
+  .nav button:hover{background:var(--hover)}
+  .nav button.active{background:var(--hover2);color:var(--text);font-weight:550}
+  .nav button .ico{width:18px;text-align:center;opacity:.95;font-size:14px}
+  .nav button .ct{margin-left:auto;font-size:11px;color:var(--muted2);background:var(--panel2);padding:0 7px;border-radius:20px;font-weight:500}
+  .nav button.active .ct{color:var(--muted);background:rgba(55,53,47,.1)}
+  .side .foot{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted2);line-height:1.6}
+  .pickbtn{display:block;width:calc(100% - 16px);margin:6px 8px;padding:9px;border:0;
+    background:var(--accent);color:var(--ink);border-radius:8px;cursor:pointer;font:inherit;font-weight:600;font-size:13px;text-align:center;transition:filter .12s;box-shadow:var(--shadow)}
+  .pickbtn:hover{filter:brightness(1.05)}
+  /* Main */
+  .main{overflow:auto;padding:18px 56px 80px;max-width:1180px}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;margin:14px 0 30px;gap:16px;flex-wrap:wrap}
+  .pageicon{font-size:46px;line-height:1;display:block;margin-bottom:10px}
+  .sec{margin:32px 0 12px;font-size:12px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em}
+  .head h2{margin:0;font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.1}
+  .head .desc{color:var(--muted);font-size:14px;margin-top:7px;max-width:640px}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border-radius:6px;font-weight:500}
+  .pill.ok{color:var(--green-tx);background:var(--green-bg)}
+  .pill.no{color:var(--gray-tx);background:var(--gray-bg)}
+  /* Notion-style callout (tinted block) */
+  .feature{background:var(--blue-bg)!important;border-color:transparent!important;box-shadow:none!important}
+  .feature .l{color:var(--blue-tx)!important;opacity:.8}
+  .feature .n,.feature .ico{color:var(--blue-tx)!important}
+  /* Cards & grid */
+  .grid{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fill,minmax(360px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .card.click{cursor:pointer;transition:box-shadow .14s,transform .14s}
+  .card.click:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .stat{display:flex;flex-direction:column;gap:6px}
+  .stat .n{font-size:32px;font-weight:700;line-height:1;letter-spacing:-.02em}
+  .stat .l{color:var(--muted);font-size:13px;font-weight:500}
+  .stat .ico{font-size:18px;opacity:.9}
+  /* Phase / skill */
+  .phase{margin-bottom:26px}
+  .phase>.ph-h{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+  .phase>.ph-h .dot{width:9px;height:9px;border-radius:50%}
+  .phase>.ph-h h3{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em}
+  .phase>.ph-h .agent{color:var(--muted);font-size:12.5px}
+  .phase>.ph-h .line{flex:1;height:1px;background:var(--border)}
+  .skill{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 16px 14px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);transition:box-shadow .14s,transform .14s}
+  .skill.click:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .skill .top{display:flex;align-items:flex-start;gap:8px}
+  .skill .name{font-weight:600;font-size:14px;letter-spacing:-.01em}
+  .skill .blurb{color:var(--muted);font-size:12.5px;line-height:1.5}
+  .skill .cmdrow{display:flex;align-items:center;gap:6px;margin-top:auto}
+  .cmd{flex:1;font-family:var(--mono);font-size:11.5px;background:var(--inset);border:1px solid var(--border);
+    border-radius:6px;padding:7px 9px;color:var(--accent2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .copy{border:1px solid var(--border2);background:var(--panel);color:var(--text);border-radius:6px;font-weight:500;
+    padding:7px 11px;cursor:pointer;font-size:11.5px;white-space:nowrap;transition:background .1s}
+  .copy:hover{background:var(--hover)}
+  .copy.done{color:var(--green-tx);background:var(--green-bg);border-color:transparent}
+  .badge{font-size:11px;padding:2px 9px;border-radius:6px;white-space:nowrap;margin-left:auto;font-weight:500}
+  .badge.has{color:var(--green-tx);background:var(--green-bg)}
+  .badge.none{color:var(--muted2);background:var(--panel2)}
+  .badge.setup{color:var(--purple);background:#f4ecfa}
+  /* Lists / files */
+  .filelist{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .filerow{display:flex;align-items:center;gap:12px;background:var(--panel);border-bottom:1px solid var(--border);
+    padding:12px 16px;cursor:pointer;transition:background .1s}
+  .filerow:last-child{border-bottom:0}
+  .filerow:hover{background:var(--hover)}
+  .filerow .fi{font-size:16px;opacity:.75}
+  .filerow .fn{font-weight:500;font-size:14px}
+  .filerow .fm{color:var(--muted2);font-size:12px;margin-left:auto;white-space:nowrap}
+  .filerow .ftag{font-size:11px;color:var(--blue-tx);background:var(--blue-bg);padding:2px 8px;border-radius:6px;font-weight:500}
+  /* Images */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+  .imgcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .14s,transform .14s}
+  .imgcard:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .imgcard img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--panel2)}
+  .imgcard .cap{padding:10px 13px;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Doc viewer (markdown) */
+  .md{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:40px 52px;max-width:820px;box-shadow:var(--shadow)}
+  .md h1{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:.1em 0 .5em}
+  .md h2{font-size:22px;font-weight:650;letter-spacing:-.01em;margin:1.5em 0 .4em}
+  .md h3{font-size:17px;font-weight:600;margin:1.3em 0 .35em}
+  .md h4{font-size:14px;font-weight:600;margin:1em 0 .3em;color:var(--muted)}
+  .md p{margin:.6em 0}
+  .md ul,.md ol{margin:.5em 0;padding-left:1.5em}
+  .md li{margin:.25em 0}
+  .md table{border-collapse:collapse;width:100%;margin:1em 0;font-size:13px;display:block;overflow-x:auto}
+  .md th,.md td{border:1px solid var(--border);padding:7px 11px;text-align:left;vertical-align:top}
+  .md th{background:var(--panel2);font-weight:600}
+  .md tr:nth-child(even) td{background:var(--inset)}
+  .md blockquote{border-left:3px solid var(--accent);margin:.8em 0;padding:.2em 1em;color:var(--muted);background:var(--inset)}
+  .md pre{background:var(--inset);border:1px solid var(--border);border-radius:8px;padding:13px 15px;overflow:auto}
+  .md pre code{background:none;padding:0}
+  .md hr{border:0;border-top:1px solid var(--border);margin:1.4em 0}
+  .md img{max-width:100%;border-radius:8px;border:1px solid var(--border)}
+  .back{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:7px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;font-weight:500;margin-bottom:18px;transition:background .1s}
+  .back:hover{background:var(--hover);color:var(--text)}
+  /* Empty / misc */
+  .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    min-height:60vh;color:var(--muted);gap:14px}
+  .empty .big{font-size:52px}
+  .empty h3{margin:0;color:var(--text);font-size:18px;font-weight:600}
+  .empty .hint{max-width:460px;font-size:13.5px;line-height:1.6}
+  .empty code{font-size:12px}
+  .muted{color:var(--muted)}
+  .search{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--border2);color:var(--text);
+    border-radius:8px;padding:9px 13px;font:inherit;font-size:13.5px;margin-bottom:18px;box-shadow:var(--shadow)}
+  .search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(35,131,226,.12)}
+  .agentgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .agentcard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);transition:box-shadow .14s,transform .14s}
+  .agentcard:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+  .agentcard .ah{display:flex;align-items:center;gap:10px}
+  .agentcard .ah .av{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .agentcard .nm{font-weight:600;font-size:14.5px;letter-spacing:-.01em}
+  .agentcard .ro{color:var(--muted);font-size:13px;line-height:1.5}
+  .agentcard .owns{font-size:11.5px;color:var(--muted2);font-weight:500;text-transform:uppercase;letter-spacing:.03em;margin-top:2px}
+  .tag{display:inline-block;font-size:11.5px;color:var(--gray-tx);background:var(--gray-bg);padding:2px 8px;border-radius:6px;margin:3px 4px 0 0;font-weight:500}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="logo"><span class="mark">S</span><h1>SEO Pipeline</h1></div>
+      <div class="sub" id="brandSub">No workspace loaded</div>
+    </div>
+    <button class="pickbtn" id="pickBtn">Open workspace folder</button>
+    <input type="file" id="picker" webkitdirectory directory multiple hidden>
+    <div class="navlabel">Workspace</div>
+    <nav class="nav" id="nav"></nav>
+    <div class="foot">Read-only · local &amp; offline<br>Reads <code>exports/</code> &amp; <code>references/</code></div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+
+<script>
+"use strict";
+
+/* ---------- Static pipeline catalog (skills + agents live in the plugin, not the client folder) ---------- */
+const NS = "search-engine-optimization";
+const AGENTS = {
+  orchestrator:{nm:"seo-cycle (skill)", role:"Sequences the specialists end to end into one ranked plan. Run with /search-engine-optimization:seo-cycle.", color:"#9065b0", ico:"🧭"},
+  strategist:  {nm:"seo-strategist",   role:"Research & targeting — keywords, gaps, intent, topic maps.", color:"#487ca5", ico:"🎯"},
+  architect:   {nm:"seo-content-architect", role:"Content structure, briefs, on-page, internal linking.", color:"#548164", ico:"✍️"},
+  technical:   {nm:"seo-technical-engineer", role:"Technical SEO — audits, crawlability, schema/JSON-LD.", color:"#cc782f", ico:"🔧"},
+  authority:   {nm:"seo-authority-agent", role:"Off-page authority — backlinks, link gaps, disavow.", color:"#c4554d", ico:"🔗"},
+  analyst:     {nm:"seo-analyst",       role:"Measurement, rank tracking & stakeholder reporting.", color:"#b35588", ico:"📊"},
+};
+const PHASES = [
+  {key:"setup", title:"Setup", color:"#9065b0", agent:"orchestrator", skills:[
+    {slug:"seo-init", name:"Workspace init", out:"setup",
+     blurb:"Scaffold references/ + exports/ for a new client. Run once.",
+     kw:["init"]},
+  ]},
+  {key:"research", title:"Research & Strategy", color:"#487ca5", agent:"strategist", skills:[
+    {slug:"seo-keyword-research", name:"Keyword research", out:"reports",
+     blurb:"Volume, difficulty, related & question keywords; prioritized list.", kw:["keyword-research","keyword_research","keyword","keywords"]},
+    {slug:"seo-serp-intent", name:"SERP intent", out:"reports",
+     blurb:"What Google rewards for a query — page type, format, depth, angle.", kw:["serp-intent","serp","intent"]},
+    {slug:"seo-competitor-gap-analysis", name:"Competitor gap", out:"reports",
+     blurb:"Keywords/content/backlinks rivals have that you don't.", kw:["competitor-gap","competitor","gap"]},
+  ]},
+  {key:"content", title:"Content", color:"#548164", agent:"architect", skills:[
+    {slug:"seo-content-brief-generator", name:"Content brief", out:"reports",
+     blurb:"Data-backed brief from one keyword — headings, entities, PAA.", kw:["content-brief","brief"]},
+    {slug:"seo-onpage-optimization", name:"On-page optimization", out:"reports",
+     blurb:"Score a page vs the live SERP; copy-paste-ready edits.", kw:["onpage","on-page","optimization","optimisation"]},
+    {slug:"seo-internal-linking", name:"Internal linking", out:"reports",
+     blurb:"Link-graph map, orphan pages, anchor-text suggestions.", kw:["internal-linking","internal","linking"]},
+    {slug:"seo-featured-image", name:"Featured image", out:"images",
+     blurb:"On-brand 16:9 hero/featured image via Higgsfield.", kw:["featured-image","featured","hero","thumbnail"]},
+    {slug:"seo-ai", name:"AI / answer-engine SEO", out:"reports",
+     blurb:"Optimize content to get cited by ChatGPT, Perplexity, AI Overviews.", kw:["ai-optimization","ai-optimisation","ai-search","geo","aeo","seo-ai"]},
+  ]},
+  {key:"technical", title:"Technical", color:"#cc782f", agent:"technical", skills:[
+    {slug:"seo-technical-audit", name:"Technical audit", out:"reports",
+     blurb:"Crawl triage into Fix now / Fix soon / Ignore, with fixes.", kw:["technical-audit","technical","audit","crawl"]},
+    {slug:"seo-schema-markup", name:"Schema markup", out:"reports",
+     blurb:"Valid JSON-LD structured data + rich-result opportunities.", kw:["schema","json-ld","jsonld","structured-data"]},
+  ]},
+  {key:"authority", title:"Authority", color:"#c4554d", agent:"authority", skills:[
+    {slug:"seo-backlink-analysis", name:"Backlink analysis", out:"reports",
+     blurb:"Link gap vs competitors, prospect scoring, toxic-link review.", kw:["backlink","referring","link-gap","disavow"]},
+  ]},
+  {key:"measure", title:"Measurement & Reporting", color:"#b35588", agent:"analyst", skills:[
+    {slug:"seo-rank-tracking", name:"Rank tracking", out:"reports",
+     blurb:"Position movement over time + likely cause of each real change.", kw:["rank-tracking","rank","tracking","movement","position"]},
+    {slug:"seo-reporting", name:"Performance reporting", out:"reports",
+     blurb:"Semrush + GSC + GA4 into one what-moved-why-next summary.", kw:["reporting","report","performance","recap","summary"]},
+  ]},
+];
+// Flatten skills, longest keywords first for greedy matching
+const ALL_SKILLS = PHASES.flatMap(p=>p.skills.map(s=>({...s, phase:p.key, agent:p.agent})));
+const MATCHERS = ALL_SKILLS.flatMap(s=>s.kw.map(k=>({k, slug:s.slug})))
+  .filter(m=>m.slug!=="seo-init")
+  .sort((a,b)=>b.k.length-a.k.length);
+
+/* ---------- State ---------- */
+let WS = null; // {name, reports:[], pages:[], images:[], references:[], counts:{}}
+let view = "overview";
+let viewArg = null;
+
+/* ---------- File loading ---------- */
+const picker = document.getElementById("picker");
+document.getElementById("pickBtn").onclick = ()=>picker.click();
+picker.onchange = async (e)=>{ await loadFiles([...e.target.files]); };
+
+async function loadFiles(files){
+  if(!files.length) return;
+  const root = files[0].webkitRelativePath.split("/")[0] || "workspace";
+  const bucket = {name:root, reports:[], pages:[], images:[], references:[]};
+  for(const f of files){
+    const rel = f.webkitRelativePath.split("/").slice(1).join("/"); // strip root folder
+    const lower = rel.toLowerCase();
+    if(/^exports\/reports\//.test(lower) && lower.endsWith(".md")){
+      bucket.reports.push(await mkDoc(f, rel));
+    } else if(/^exports\/pages\//.test(lower) && /\.(md|html?|txt)$/.test(lower)){
+      bucket.pages.push(await mkDoc(f, rel));
+    } else if(/^exports\/images\//.test(lower)){
+      if(/\.(png|jpe?g|webp|gif|avif)$/.test(lower)){
+        bucket.images.push({name:basename(rel), rel, url:URL.createObjectURL(f), file:f, size:f.size, kind:"img"});
+      } else if(lower.endsWith(".md")){
+        bucket.images.push(await mkDoc(f, rel, "imgdoc"));
+      }
+    } else if(/^references\//.test(lower) && lower.endsWith(".md")){
+      bucket.references.push(await mkDoc(f, rel));
+    }
+  }
+  const byName=(a,b)=>a.name.localeCompare(b.name);
+  bucket.reports.sort(byName); bucket.pages.sort(byName);
+  bucket.references.sort(byName); bucket.images.sort(byName);
+  // attribute reports to skills
+  bucket.bySkill = {};
+  for(const doc of [...bucket.reports, ...bucket.images.filter(i=>i.kind==="img"), ...bucket.pages]){
+    const slug = matchSkill(doc.name);
+    if(slug){ (bucket.bySkill[slug] ??= []).push(doc); doc.skill=slug; }
+  }
+  WS = bucket;
+  document.getElementById("brandSub").textContent = root;
+  view="overview"; viewArg=null;
+  render();
+}
+async function mkDoc(file, rel, kind="doc"){
+  const text = await file.text();
+  return {name:basename(rel), rel, text, kind, size:file.size, lastModified:file.lastModified};
+}
+function basename(p){ return p.split("/").pop(); }
+function matchSkill(filename){
+  const n = filename.toLowerCase();
+  for(const m of MATCHERS){ if(n.includes(m.k)) return m.slug; }
+  return null;
+}
+function fmtBytes(b){ if(b<1024)return b+" B"; if(b<1048576)return (b/1024).toFixed(0)+" KB"; return (b/1048576).toFixed(1)+" MB"; }
+function fmtDate(ms){ try{return new Date(ms).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}catch(e){return "";} }
+function skillRan(slug){ return WS && WS.bySkill[slug] && WS.bySkill[slug].length>0; }
+
+/* ---------- Markdown renderer (compact, supports tables) ---------- */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function inline(s){
+  return s
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g,(m,a,u)=>`<img alt="${a}" src="${u}">`)
+    .replace(/\[([^\]]+)\]\(([^)\s]+)[^)]*\)/g,(m,t,u)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`)
+    .replace(/`([^`]+)`/g,(m,c)=>`<code>${c}</code>`)
+    .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+    .replace(/__([^_]+)__/g,"<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\n]+)\*/g,"$1<em>$2</em>")
+    .replace(/(^|[^_\w])_([^_\n]+)_(?!\w)/g,"$1<em>$2</em>");
+}
+function splitRow(line){
+  let s=line.trim().replace(/^\|/,"").replace(/\|$/,"");
+  const cells=[]; let cur="";
+  for(let i=0;i<s.length;i++){ const c=s[i];
+    if(c==="\\" && s[i+1]==="|"){cur+="|";i++;}
+    else if(c==="|"){cells.push(cur);cur="";}
+    else cur+=c;
+  }
+  cells.push(cur);
+  return cells.map(c=>c.trim());
+}
+function mdToHtml(md){
+  const lines = md.replace(/\r\n/g,"\n").split("\n");
+  let out=[], i=0;
+  const isBlank=l=>!l.trim();
+  while(i<lines.length){
+    let line=lines[i];
+    // fenced code
+    if(/^\s*```/.test(line)){
+      const fence=line.trim().slice(0,3); let buf=[]; i++;
+      while(i<lines.length && !lines[i].trim().startsWith(fence)){ buf.push(lines[i]); i++; }
+      i++;
+      out.push(`<pre><code>${esc(buf.join("\n"))}</code></pre>`); continue;
+    }
+    // heading
+    let h=line.match(/^(#{1,6})\s+(.*)$/);
+    if(h){ const lv=h[1].length; out.push(`<h${lv}>${inline(esc(h[2]))}</h${lv}>`); i++; continue; }
+    // hr
+    if(/^\s*([-*_])\1\1[-*_\s]*$/.test(line) && isBlank(lines[i-1]||"")){ out.push("<hr>"); i++; continue; }
+    // table
+    if(line.includes("|") && i+1<lines.length && /^\s*\|?[\s:|-]*-[\s:|-]*\|?\s*$/.test(lines[i+1]) && lines[i+1].includes("-")){
+      const header=splitRow(line); i+=2;
+      let rows=[];
+      while(i<lines.length && lines[i].includes("|") && !isBlank(lines[i])){ rows.push(splitRow(lines[i])); i++; }
+      let t="<table><thead><tr>"+header.map(c=>`<th>${inline(esc(c))}</th>`).join("")+"</tr></thead><tbody>";
+      for(const r of rows){ t+="<tr>"+header.map((_,ci)=>`<td>${inline(esc(r[ci]||""))}</td>`).join("")+"</tr>"; }
+      t+="</tbody></table>"; out.push(t); continue;
+    }
+    // blockquote
+    if(/^\s*>\s?/.test(line)){
+      let buf=[];
+      while(i<lines.length && /^\s*>\s?/.test(lines[i])){ buf.push(lines[i].replace(/^\s*>\s?/,"")); i++; }
+      out.push(`<blockquote>${mdToHtml(buf.join("\n"))}</blockquote>`); continue;
+    }
+    // lists
+    if(/^\s*([-*+]|\d+\.)\s+/.test(line)){
+      const ordered=/^\s*\d+\.\s+/.test(line);
+      let buf=[];
+      while(i<lines.length && /^\s*([-*+]|\d+\.)\s+/.test(lines[i])){
+        buf.push(`<li>${inline(esc(lines[i].replace(/^\s*([-*+]|\d+\.)\s+/,"")))}</li>`); i++;
+      }
+      out.push(`<${ordered?"ol":"ul"}>${buf.join("")}</${ordered?"ol":"ul"}>`); continue;
+    }
+    // blank
+    if(isBlank(line)){ i++; continue; }
+    // paragraph
+    let buf=[];
+    while(i<lines.length && !isBlank(lines[i]) && !/^(#{1,6}\s|\s*```|\s*>|\s*([-*+]|\d+\.)\s)/.test(lines[i])
+          && !(lines[i].includes("|") && i+1<lines.length && /^\s*\|?[\s:|-]*-[\s:|-]*\|?\s*$/.test(lines[i+1]))){
+      buf.push(lines[i]); i++;
+    }
+    out.push(`<p>${inline(esc(buf.join(" ")))}</p>`);
+  }
+  return out.join("\n");
+}
+
+/* ---------- Render ---------- */
+const main=document.getElementById("main");
+const NAV=[
+  {id:"overview", ico:"🏠", label:"Overview"},
+  {id:"pipeline", ico:"🧩", label:"Pipeline"},
+  {id:"reports",  ico:"📄", label:"Reports",  count:()=>WS&&WS.reports.length},
+  {id:"pages",    ico:"📰", label:"Pages",    count:()=>WS&&WS.pages.length},
+  {id:"images",   ico:"🖼", label:"Images",   count:()=>WS&&WS.images.filter(i=>i.kind==="img").length},
+  {id:"skills",   ico:"⚡", label:"Skills",   count:()=>ALL_SKILLS.length},
+  {id:"agents",   ico:"🤖", label:"Agents",   count:()=>Object.keys(AGENTS).length},
+];
+function renderNav(){
+  const nav=document.getElementById("nav");
+  nav.innerHTML="";
+  for(const n of NAV){
+    const b=document.createElement("button");
+    b.className=(view===n.id?"active":"");
+    const c = n.count? n.count() : null;
+    b.innerHTML=`<span class="ico">${n.ico}</span><span>${n.label}</span>`+
+      (c!=null?`<span class="ct">${c}</span>`:"");
+    b.onclick=()=>{ view=n.id; viewArg=null; render(); };
+    nav.appendChild(b);
+  }
+}
+function go(v,arg){ view=v; viewArg=arg||null; render(); window.scrollTo(0,0); main.scrollTop=0; }
+
+function render(){
+  renderNav();
+  if(!WS){ main.innerHTML=emptyState(); return; }
+  if(view==="doc"){ main.innerHTML=docView(viewArg); wireBack(); return; }
+  if(view==="overview") main.innerHTML=overview();
+  else if(view==="pipeline") main.innerHTML=pipeline();
+  else if(view==="reports") main.innerHTML=fileListView("Reports","📄",WS.reports,"reports/");
+  else if(view==="pages") main.innerHTML=fileListView("Pages","📰",WS.pages,"pages/");
+  else if(view==="images") main.innerHTML=imagesView();
+  else if(view==="skills") main.innerHTML=skillsView();
+  else if(view==="agents") main.innerHTML=agentsView();
+  wireInteractive();
+}
+
+function emptyState(){
+  return `<div class="empty">
+    <div class="big">📂</div>
+    <h3>Open a client workspace to begin</h3>
+    <div class="hint">Click <b>Open workspace folder</b> in the sidebar and select a client's workspace
+    (the folder that contains <code>references/</code> and <code>exports/</code>).
+    Everything is read locally in your browser — nothing is uploaded.</div>
+    <button class="copy" onclick="document.getElementById('picker').click()">Choose folder…</button>
+  </div>`;
+}
+
+function overview(){
+  const reps=WS.reports.length, pgs=WS.pages.length, imgs=WS.images.filter(i=>i.kind==="img").length;
+  const ranSkills=ALL_SKILLS.filter(s=>skillRan(s.slug)).length;
+  const totalSkills=ALL_SKILLS.filter(s=>s.out!=="setup").length;
+  const refs=WS.references.length;
+  const cards=[
+    {n:reps, l:"Reports", ico:"📄", v:"reports"},
+    {n:pgs, l:"Pages", ico:"📰", v:"pages"},
+    {n:imgs, l:"Images", ico:"🖼", v:"images"},
+    {n:`${ranSkills}/${totalSkills}`, l:"Skills with output", ico:"⚡", v:"pipeline", feat:true},
+  ];
+  // recent
+  const recent=[...WS.reports,...WS.pages].sort((a,b)=>b.lastModified-a.lastModified).slice(0,6);
+  return `
+  <div class="head"><div><span class="pageicon">📊</span><h2>${escAttr(WS.name)}</h2>
+    <div class="desc">SEO pipeline workspace · ${refs} reference file${refs===1?"":"s"} loaded</div></div></div>
+  <div class="grid g3">
+    ${cards.map(c=>`<div class="card click stat ${c.feat?'feature':''}" data-go="${c.v}">
+      <div style="display:flex;justify-content:space-between"><span class="ico">${c.ico}</span></div>
+      <div class="n">${c.n}</div><div class="l">${c.l}</div></div>`).join("")}
+  </div>
+  <div class="sec">Pipeline at a glance</div>
+  <div class="grid g3">
+    ${PHASES.filter(p=>p.key!=="setup").map(p=>{
+      const tot=p.skills.length, done=p.skills.filter(s=>skillRan(s.slug)).length;
+      const ag=AGENTS[p.agent];
+      return `<div class="card click" data-go="pipeline" style="border-left:3px solid ${p.color}">
+        <div style="display:flex;align-items:center;gap:8px"><b>${p.title}</b>
+          <span class="badge ${done?'has':'none'}" style="margin-left:auto">${done}/${tot}</span></div>
+        <div class="muted" style="font-size:12px;margin-top:6px">${ag.ico} ${ag.nm}</div></div>`;
+    }).join("")}
+  </div>
+  ${recent.length?`<div class="sec">Recent deliverables</div>
+  <div class="filelist">${recent.map(d=>fileRow(d)).join("")}</div>`:""}
+  `;
+}
+
+function pipeline(){
+  return `<div class="head"><div><span class="pageicon">🧩</span><h2>Pipeline</h2>
+    <div class="desc">Each stage's skills, who owns them, and whether they've produced output in this workspace.</div></div></div>
+  ${PHASES.map(p=>{
+    const ag=AGENTS[p.agent];
+    return `<div class="phase">
+      <div class="ph-h"><span class="dot" style="background:${p.color}"></span>
+        <h3>${p.title}</h3><span class="agent">· ${ag.ico} ${ag.nm}</span><span class="line"></span></div>
+      <div class="grid g3">${p.skills.map(s=>skillCard(s)).join("")}</div>
+    </div>`;
+  }).join("")}`;
+}
+
+function skillCard(s){
+  const cmd=`/${NS}:${s.slug}`;
+  const files = WS ? (WS.bySkill[s.slug]||[]) : [];
+  let badge;
+  if(s.out==="setup") badge=`<span class="badge setup">setup</span>`;
+  else if(files.length) badge=`<span class="badge has">${files.length} output${files.length===1?"":"s"}</span>`;
+  else badge=`<span class="badge none">no output yet</span>`;
+  const clickable = files.length ? `data-files="${s.slug}"` : "";
+  return `<div class="skill ${files.length?'click':''}" ${clickable} style="${files.length?'cursor:pointer':''}">
+    <div class="top"><span class="name">${s.name}</span>${badge}</div>
+    <div class="blurb">${s.blurb}</div>
+    <div class="cmdrow">
+      <span class="cmd" title="${cmd}">${cmd}</span>
+      <button class="copy" data-copy="${cmd}">Copy</button>
+    </div>
+  </div>`;
+}
+
+function skillsView(){
+  return `<div class="head"><div><span class="pageicon">⚡</span><h2>Skills</h2>
+    <div class="desc">${ALL_SKILLS.length} pipeline skills. Copy a command and paste it into Claude Code to run.</div></div></div>
+  <input class="search" id="skSearch" placeholder="Filter skills…">
+  <div class="grid g3" id="skGrid">${ALL_SKILLS.map(s=>skillCard(s)).join("")}</div>`;
+}
+
+function agentsView(){
+  const owns={};
+  for(const s of ALL_SKILLS){ (owns[s.agent] ??= []).push(s); }
+  return `<div class="head"><div><span class="pageicon">🤖</span><h2>Agents</h2>
+    <div class="desc">Five specialist agents, sequenced by the seo-cycle skill. Mention an agent by name in Claude Code to invoke it, or run /search-engine-optimization:seo-cycle for a full cycle.</div></div></div>
+  <div class="agentgrid">${Object.entries(AGENTS).map(([k,a])=>{
+    const skills=owns[k]||[];
+    return `<div class="agentcard">
+      <div class="ah"><div class="av" style="background:${a.color}22;color:${a.color}">${a.ico}</div>
+        <div><div class="nm">${a.nm}</div></div></div>
+      <div class="ro">${a.role}</div>
+      ${skills.length?`<div class="owns">Owns:</div><div>${skills.map(s=>`<span class="tag">${s.name}</span>`).join("")}</div>`:`<div class="owns">Coordinates all stages.</div>`}
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function fileListView(title,ico,arr,sub){
+  if(!arr.length) return `<div class="head"><div><span class="pageicon">${ico}</span><h2>${title}</h2></div></div>
+    <div class="empty" style="min-height:36vh"><div class="big">${ico}</div>
+    <h3>No ${title.toLowerCase()} yet</h3><div class="hint">Run a pipeline skill in Claude Code and its output will land in <code>exports/${sub}</code>.</div></div>`;
+  return `<div class="head"><div><span class="pageicon">${ico}</span><h2>${title}</h2>
+    <div class="desc">${arr.length} file${arr.length===1?"":"s"} in <code>exports/${sub}</code></div></div></div>
+  <input class="search" id="flSearch" placeholder="Filter…">
+  <div class="filelist" id="flList">${arr.map(d=>fileRow(d)).join("")}</div>`;
+}
+
+function fileRow(d){
+  const skill=d.skill?ALL_SKILLS.find(s=>s.slug===d.skill):null;
+  return `<div class="filerow" data-doc="${escAttr(d.rel)}">
+    <span class="fi">${d.rel.includes("/pages/")?"📰":d.rel.includes("/images/")?"🖼":"📄"}</span>
+    <div><div class="fn">${escAttr(d.name)}</div></div>
+    ${skill?`<span class="ftag">${skill.name}</span>`:""}
+    <span class="fm">${fmtBytes(d.size)} · ${fmtDate(d.lastModified)}</span>
+  </div>`;
+}
+
+function imagesView(){
+  const imgs=WS.images.filter(i=>i.kind==="img");
+  const docs=WS.images.filter(i=>i.kind==="imgdoc");
+  if(!imgs.length && !docs.length) return `<div class="head"><div><span class="pageicon">🖼</span><h2>Images</h2></div></div>
+    <div class="empty" style="min-height:36vh"><div class="big">🖼</div>
+    <h3>No images yet</h3><div class="hint">Run <code>/${NS}:seo-featured-image</code> and generated images land in <code>exports/images</code>.</div></div>`;
+  return `<div class="head"><div><span class="pageicon">🖼</span><h2>Images</h2>
+    <div class="desc">${imgs.length} image${imgs.length===1?"":"s"} in <code>exports/images</code></div></div></div>
+  <div class="gallery">${imgs.map(im=>`<div class="imgcard">
+    <a href="${im.url}" target="_blank"><img src="${im.url}" alt="${escAttr(im.name)}"></a>
+    <div class="cap" title="${escAttr(im.name)}">${escAttr(im.name)}</div></div>`).join("")}</div>
+  ${docs.length?`<div class="sec">Prompt records</div>
+   <div class="filelist">${docs.map(d=>fileRow(d)).join("")}</div>`:""}`;
+}
+
+function findDoc(rel){
+  if(!WS) return null;
+  return [...WS.reports,...WS.pages,...WS.references,...WS.images.filter(i=>i.kind==="imgdoc")].find(d=>d.rel===rel);
+}
+function docView(rel){
+  const d=findDoc(rel);
+  if(!d) return `<button class="back" data-back>← Back</button><div class="md">File not found.</div>`;
+  return `<button class="back" data-back>← Back</button>
+    <div style="margin-bottom:14px"><span class="muted" style="font-size:12px">${escAttr(d.rel)} · ${fmtBytes(d.size)} · ${fmtDate(d.lastModified)}</span></div>
+    <div class="md">${mdToHtml(d.text)}</div>`;
+}
+
+/* ---------- Wiring ---------- */
+function escAttr(s){return String(s).replace(/"/g,"&quot;").replace(/</g,"&lt;");}
+function wireBack(){
+  main.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>{ go(prevView||"reports"); });
+}
+let prevView="reports";
+function wireInteractive(){
+  main.querySelectorAll("[data-go]").forEach(el=>el.onclick=()=>go(el.dataset.go));
+  main.querySelectorAll("[data-doc]").forEach(el=>el.onclick=()=>{ prevView=view; go("doc", el.dataset.doc); });
+  main.querySelectorAll("[data-copy]").forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation();
+    navigator.clipboard?.writeText(b.dataset.copy).then(()=>{
+      const t=b.textContent; b.textContent="Copied ✓"; b.classList.add("done");
+      setTimeout(()=>{b.textContent=t;b.classList.remove("done");},1200);
+    }).catch(()=>{ promptCopy(b.dataset.copy); });
+  });
+  main.querySelectorAll("[data-files]").forEach(el=>el.onclick=(e)=>{
+    if(e.target.closest("[data-copy]")) return;
+    const slug=el.dataset.files; const files=WS.bySkill[slug]||[];
+    if(files.length===1){ prevView="pipeline"; go("doc", files[0].rel); }
+    else { go(files[0].rel.includes("/images/")?"images":files[0].rel.includes("/pages/")?"pages":"reports"); }
+  });
+  // search filters
+  const sk=document.getElementById("skSearch");
+  if(sk) sk.oninput=()=>{
+    const q=sk.value.toLowerCase();
+    document.querySelectorAll("#skGrid .skill").forEach(c=>{
+      c.style.display = c.textContent.toLowerCase().includes(q)?"":"none";
+    });
+  };
+  const fl=document.getElementById("flSearch");
+  if(fl) fl.oninput=()=>{
+    const q=fl.value.toLowerCase();
+    document.querySelectorAll("#flList .filerow").forEach(r=>{
+      r.style.display=r.textContent.toLowerCase().includes(q)?"":"none";
+    });
+  };
+}
+function promptCopy(t){ window.prompt("Copy this command:", t); }
+
+/* ---------- Boot ---------- */
+render();
+</script>
+</body>
+</html>
